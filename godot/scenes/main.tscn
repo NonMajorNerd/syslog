@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://q3fn1gxjv86g"]
+
+[ext_resource type="Script" uid="uid://bm53njwfselij" path="res://scenes/main.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://cn31d7wndnwwp" path="res://components/server_manager.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://djm7yy78m6v8x" path="res://scenes/console.tscn" id="3_sugp2"]
+
+[node name="Main" type="Node" unique_id=238566348]
+script = ExtResource("1_0wfyh")
+
+[node name="ServerManager" type="Node" parent="." unique_id=1272941462]
+script = ExtResource("1_o5qli")
+
+[node name="Console" parent="." unique_id=457722318 instance=ExtResource("3_sugp2")]

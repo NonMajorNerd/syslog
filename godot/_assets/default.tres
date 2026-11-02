@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://dnl1s5aaud40p"]
+
+[ext_resource type="FontFile" uid="uid://by01i3bebmidh" path="res://_assets/fonts/RobotoMono-VariableFont_wght.ttf" id="1_k5geo"]
+
+[resource]
+default_font = ExtResource("1_k5geo")
+default_font_size = 18

@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://djm7yy78m6v8x"]
+
+[ext_resource type="Script" uid="uid://cqqym0aj3cjp0" path="res://scenes/console.gd" id="1_gf67r"]
+[ext_resource type="Script" uid="uid://dhld8t8xj6bui" path="res://components/console/console_manager.gd" id="2_xil4p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jyhfs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xil4p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t6k7n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_buc2e"]
+
+[node name="Console" type="PanelContainer" unique_id=457722318]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_gf67r")
+
+[node name="ConsoleManager" type="Node" parent="." unique_id=243551061]
+script = ExtResource("2_xil4p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=204917232]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=273611266]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="rtlTerminal" type="RichTextLabel" parent="HBoxContainer/VBoxContainer" unique_id=1459663030]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+autowrap_mode = 0
+vertical_alignment = 2
+
+[node name="inputline" type="PanelContainer" parent="HBoxContainer/VBoxContainer" unique_id=26769978]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jyhfs")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/inputline" unique_id=1237682022]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="rtlPrompt" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/inputline/HBoxContainer" unique_id=1404229296]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/normal_font_size = 16
+text = "unauth@local:/$"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="txtInput" type="LineEdit" parent="HBoxContainer/VBoxContainer/inputline/HBoxContainer" unique_id=2125126208]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/caret_width = 11
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xil4p")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_t6k7n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_buc2e")
+keep_editing_on_text_submit = true
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
+flat = true
+caret_blink = true
+caret_force_displayed = true
+
+[node name="Sidebar" type="PanelContainer" parent="HBoxContainer" unique_id=939007627]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Sidebar" unique_id=1768331282]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
