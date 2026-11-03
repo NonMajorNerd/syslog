@@ -16,7 +16,7 @@ func validateUsername(_value: String) -> String: return ""
 func validatePassword(_value: String) -> String: return ""
 
 func execute(_args: Array[String]) -> void:
-	Globals.consoleManager.printOutput("User authentication")
+	Globals.consoleManager.printOutput("User signon")
 
 	var username: Variant = await Globals.consoleManager.requestInput("Username:", validateUsername)
 	if username == null: return
@@ -29,5 +29,9 @@ func execute(_args: Array[String]) -> void:
 	if exists != OK: Globals.consoleManager.printOutput("User %s not registered." % username, Globals.Colors["CONSOLE"]["FONT_FAILURE"])
 	else:
 		var result:int = await Globals.serverManager.authenticate_async(username, "", password, false)
-		if result == OK: Globals.consoleManager.printOutput("Connected as user %s." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"])
+		if result == OK:
+			var cresult:int = await Globals.serverManager.connectSocket()
+			if cresult == OK:
+				Globals.consoleManager.printOutput("Connected as user %s." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"])
+				Globals.serverManager.connectToWorld()
 		else: Globals.consoleManager.printOutput("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"])

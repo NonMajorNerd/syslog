@@ -1,12 +1,14 @@
 class_name ConsoleManager
 extends Node
 
-signal outputPrinted(message: String, color: Color)
-signal promptChanged(promptText: String, secret: bool)
-signal inputEnabledChanged(enabled: bool)
+signal outputPrinted(message:String, color:Color)
+signal chatPrinted(message:String, color:Color)
+signal promptChanged(promptText:String, secret:bool)
+signal inputEnabledChanged(enabled:bool)
 
-signal inputSubmitted(value: String)
+signal inputSubmitted(value:String)
 signal inputCancelled
+
 
 var commands: Dictionary[String, ConsoleCommand] = {}
 
@@ -141,8 +143,11 @@ func cancelInput() -> void:
 	if activePrompt == null: return
 	inputCancelled.emit()
 
-func printOutput(message: String, color:Color = Color("ffffffff")) -> void:
+func printOutput(message:String, color:Color = Color("ffffffff")) -> void:
 	outputPrinted.emit(message, color)
+	
+func printChat(message:String, color:Color = Color("ffffffff")) -> void:
+	chatPrinted.emit(message, color)
 
 func clearOutput() -> void:
 	outputPrinted.emit("CODE_CLEAR",Color("ffffffff"))

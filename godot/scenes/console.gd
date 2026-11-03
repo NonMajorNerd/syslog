@@ -1,12 +1,14 @@
 extends Control
 # UI/Scene for console
 
-@onready var rtlTerminal: RichTextLabel = $HBoxContainer/VBoxContainer/rtlTerminal
-@onready var rtlPrompt: RichTextLabel = $HBoxContainer/VBoxContainer/inputline/HBoxContainer/rtlPrompt
-@onready var txtInput: LineEdit = $HBoxContainer/VBoxContainer/inputline/HBoxContainer/txtInput
+@onready var rtlTerminal:RichTextLabel = $HBoxContainer/VBoxContainer/rtlTerminal
+@onready var rtlChat:RichTextLabel = $HBoxContainer/Sidebar/VBoxContainer/rtlWorldChat
+@onready var rtlPrompt:RichTextLabel = $HBoxContainer/VBoxContainer/inputline/HBoxContainer/rtlPrompt
+@onready var txtInput:LineEdit = $HBoxContainer/VBoxContainer/inputline/HBoxContainer/txtInput
 
 func setup() -> void:	
 	Globals.consoleManager.outputPrinted.connect(_on_output_printed)
+	Globals.consoleManager.chatPrinted.connect(_on_chat_printed)
 	Globals.consoleManager.promptChanged.connect(_on_prompt_changed)
 	Globals.consoleManager.inputEnabledChanged.connect(_on_input_enabled_changed)
 	txtInput.text_submitted.connect(_on_input_submitted)
@@ -19,6 +21,12 @@ func setup() -> void:
 func clearPrompt() -> void:
 	#if not logged in:
 	rtlPrompt.text = "unauth@local:/$"
+
+func _on_chat_printed(msg:String, clr:Color) -> void:
+	if not msg: return
+	if msg == "CODE_CLEAR": rtlChat.clear() # sent by no command
+	else:	rtlChat.append_text("[color=#%s]%s[/color]\n" % [clr.to_html(false), msg])
+
 
 func _on_output_printed(msg:String, clr:Color) -> void:
 	if not msg: return

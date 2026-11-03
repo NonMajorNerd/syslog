@@ -27,7 +27,7 @@ func execute(_args: Array[String]) -> void:
 		var result:int = await Globals.serverManager.authenticate_async(username, email, password, true)
 		if result == OK:
 			Globals.consoleManager.printOutput("Registered user %s successfully." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"])
-			Globals.consoleManager.printOutput("Connected as user %s." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"])
+			#Globals.serverManager.connectSocket()
 		else: Globals.consoleManager.printOutput("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"])
 
 func validateUsername(value: String) -> String:

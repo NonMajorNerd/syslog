@@ -49,11 +49,11 @@ func showCommandList() -> void:
 	Globals.consoleManager.printOutput("\nUse 'help <command>' for more information.\n")
 
 
-func showCommandHelp(commandName: String) -> void:
-	var lookupName: String = commandName.to_lower()
+func showCommandHelp(cmdName: String) -> void:
+	var lookupName: String = cmdName.to_lower()
 
 	if not Globals.consoleManager.commands.has(lookupName):
-		Globals.consoleManager.printOutput("Unknown command: " + commandName)
+		Globals.consoleManager.printOutput("Unknown command: " + cmdName)
 		return
 
 	var command: ConsoleCommand = (

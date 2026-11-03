@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Nakama="*uid://bny0rsn1cxq5v"
+Nakama="*uid://beiwf0skkhnsa"
 Globals="*uid://hryn6vn1snfl"
 
 [display]

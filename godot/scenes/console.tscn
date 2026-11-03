@@ -88,3 +88,10 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Sidebar" unique_id=1768331282]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+
+[node name="rtlWorldChat" type="RichTextLabel" parent="HBoxContainer/Sidebar/VBoxContainer" unique_id=1275290456]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+vertical_alignment = 2

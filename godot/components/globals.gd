@@ -1,7 +1,10 @@
 extends Node
 
-@export var serverManager:ServerManager
-@export var consoleManager:ConsoleManager
+var serverManager:ServerManager
+var consoleManager:ConsoleManager
+
+var playerHandle:Handle
+
 
 var Colors:Dictionary	=	{"CONSOLE":	{ "FONT_DEFAULT": Color("ffffffff"),
 																			"FONT_SUCCESS": Color("bfffb9ff"),
