@@ -22,13 +22,13 @@ func execute(_args: Array[String]) -> void:
 
 	Globals.consoleManager.printOutput("Registering user %s." % username)
 	var exists:int = await Globals.serverManager.authenticate_async(username, email, password, false)
-	if exists == OK: Globals.consoleManager.printOutput("Email %s already registered." % email, Globals.Colors["CONSOLE"]["FONT_FAILURE"])
+	if exists == OK: Globals.consoleManager.printOutputWithSFX("Email %s already registered." % email, Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 	else:
 		var result:int = await Globals.serverManager.authenticate_async(username, email, password, true)
 		if result == OK:
-			Globals.consoleManager.printOutput("Registered user %s successfully." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"])
+			Globals.consoleManager.printOutputWithSFX("Registered user %s successfully." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"],25,"confirm")
 			#Globals.serverManager.connectSocket()
-		else: Globals.consoleManager.printOutput("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"])
+		else: Globals.consoleManager.printOutputWithSFX("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 
 func validateUsername(value: String) -> String:
 	# todo :: check against existing usernames, centralize these off of the individual commands

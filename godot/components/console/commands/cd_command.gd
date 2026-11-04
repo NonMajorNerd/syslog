@@ -37,13 +37,14 @@ func execute(_args: Array[String]) -> void:
 			var password = await Globals.consoleManager.requestInput("Password:", validatePassword, true)
 			if not password: return 
 			if not network.unlock(directoryPath, password):
-				Globals.consoleManager.printOutput("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"])
+				Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 				return
 
 	if network.changeDirectory(path):
-		Globals.consoleManager.printOutput(network.getCurrentPath())
+		pass
+		#Globals.consoleManager.printOutput(network.getCurrentPath())
 	else:
-		Globals.consoleManager.printOutput("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"])
+		Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 
 
 func validatePassword(value: String) -> String:

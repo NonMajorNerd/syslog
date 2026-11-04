@@ -5,14 +5,14 @@ extends Node
 
 func _ready() -> void:
 	var tween = create_tween()
-	tween.tween_property(audioPlayer, "volume_linear", 0.8, 6.0)
+	tween.tween_property(audioPlayer, "volume_linear", 0.6, 6.0)
 	boot()
 	
 func boot() -> void:
 	await get_tree().create_timer(0.8).timeout
-	playSfx(load("res://_assets/sfx/openchime.wav"), 0.8)
+	playSfx(load("res://_assets/sfx/chimes/open.wav"), 0.6)
 
-func playSfx(stream: AudioStream, volLinear: float = 0.8) -> void:
+func playSfx(stream: AudioStream, volLinear: float = 0.6) -> void:
 	var player := AudioStreamPlayer.new()
 	add_child(player)
 	player.stream = stream
@@ -21,5 +21,10 @@ func playSfx(stream: AudioStream, volLinear: float = 0.8) -> void:
 	player.finished.connect(player.queue_free)
 	player.play()
 	
-func playRandomGlitch() -> void:
-	playSfx(load("res://_assets/sfx/glitches/%s.wav" % randi_range(1,11)), audioPlayer.volume_linear)
+func playRandom(type:String = "glitch") -> void:
+	match type:
+		"confirm": playSfx(load("res://_assets/sfx/confirm/%s.wav" % randi_range(1,3)), audioPlayer.volume_linear)
+		"decline": playSfx(load("res://_assets/sfx/decline/%s.wav" % randi_range(1,3)), audioPlayer.volume_linear)
+		"search": playSfx(load("res://_assets/sfx/search/%s.wav" % randi_range(1,3)), audioPlayer.volume_linear)
+		_: playSfx(load("res://_assets/sfx/glitch/%s.wav" % randi_range(1,13)), audioPlayer.volume_linear)
+		

@@ -69,8 +69,8 @@ func _on_input_submitted(input: String) -> void:
 	if input.strip_edges().is_empty() and not isPromptInput:
 		return
 		
-	# random chance for weird sfx
-	if randi_range(1, 100) <= 33: Globals.audioManager.playRandomGlitch()
+	# random chance for glitch sfx
+	if randi_range(1, 100) <= 33: Globals.audioManager.playRandom("glitch")
 	
 	txtInput.clear()
 	Globals.consoleManager.submitInput(input)

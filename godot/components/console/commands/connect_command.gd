@@ -18,7 +18,7 @@ func execute(_args: Array[String]) -> void:
 	await Globals.get_tree().create_timer(randf_range(0.3, 1.3)).timeout
 	var result:bool = Globals.gameNetworkManager.connectTo(_args[0])
 	if result == true:
-		Globals.consoleManager.printOutput("Connected to network %s." % Globals.gameNetworkManager.activeNetwork.networkName, Globals.Colors["CONSOLE"]["FONT_NETWORKING"])
+		Globals.consoleManager.printOutputWithSFX("Connected to network %s." % Globals.gameNetworkManager.activeNetwork.networkName, Globals.Colors["CONSOLE"]["FONT_NETWORKING"],25,"confirm")
 		Globals.consoleManager.registerCommand(DisconnectCommand.new())
 		
 	# display motd and readme, if the network has them
@@ -28,5 +28,5 @@ func execute(_args: Array[String]) -> void:
 		Globals.consoleManager.printOutput(Globals.gameNetworkManager.activeNetwork.readFile("/motd.txt"))
 	
 		
-	else: 	Globals.consoleManager.printOutput("Could not connect to network %s." % _args[0], Globals.Colors["CONSOLE"]["FONT_FAILURE"])
+	else: 	Globals.consoleManager.printOutputWithSFX("Could not connect to network %s." % _args[0], Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 	

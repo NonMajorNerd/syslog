@@ -13,6 +13,6 @@ func _init() -> void:
 func execute(_args: Array[String]) -> void:
 	Globals.consoleManager.printOutput("Scanning for available network connections.")
 	await Globals.get_tree().create_timer(randf_range(0.3, 1.3)).timeout
-	Globals.consoleManager.printOutput("Network(s) available: HelixDynamics", Globals.Colors["CONSOLE"]["FONT_NETWORKING"])
+	Globals.consoleManager.printOutputWithSFX("Network(s) available: HelixDynamics", Globals.Colors["CONSOLE"]["FONT_NETWORKING"],25,"search")
 	Globals.consoleManager.registerCommand(ConnectCommand.new())
 	
