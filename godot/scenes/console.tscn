@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqqym0aj3cjp0" path="res://scenes/console.gd" id="1_gf67r"]
 [ext_resource type="Shader" uid="uid://nbfvuh3uajhi" path="res://scenes/crt.gdshader" id="1_t6k7n"]
-[ext_resource type="Texture2D" uid="uid://bgtse3nbqrgiv" path="res://_assets/PS.png" id="2_tk5gh"]
+[ext_resource type="Texture2D" uid="uid://3lmlwxgyexau" path="res://_assets/PS.png" id="2_tk5gh"]
 [ext_resource type="Script" uid="uid://dhld8t8xj6bui" path="res://components/console/console_manager.gd" id="2_xil4p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dqxiu"]
