@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://dv1864qkyc8k3" path="res://_assets/music/Unreadable Memory.wav" id="9_yc10j"]
 [ext_resource type="AudioStream" uid="uid://c01iyb7gpfnqe" path="res://_assets/music/Voices in the Cache.wav" id="10_jscy8"]
 [ext_resource type="AudioStream" uid="uid://bpsycoxd7huv0" path="res://_assets/music/Ward Without Windows.wav" id="11_pm3ni"]
+[ext_resource type="Texture2D" uid="uid://s0jfl7bnssxw" path="res://_assets/PSI.png" id="15_jbj1t"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dqxiu"]
 streams_count = 10
@@ -29,6 +30,147 @@ stream_7/stream = ExtResource("9_yc10j")
 stream_8/stream = ExtResource("10_jscy8")
 stream_9/stream = ExtResource("11_pm3ni")
 
+[sub_resource type="Animation" id="Animation_dp3eg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/flash:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer/flash:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelContainer/logo:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 15.088993, 0, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:process_mode")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0ld40"]
+resource_name = "bootup"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/flash:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(2000, 2000)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer/flash:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelContainer/logo:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 2, 4, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 15.087969, 0, 0), Color(0, 15.088993, 0, 1), Color(0, 15.088993, 0, 1), Color(0, 15.087969, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:process_mode")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gqmmt"]
+_data = {
+&"RESET": SubResource("Animation_dp3eg"),
+&"bootup": SubResource("Animation_0ld40")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dqxiu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_muem4"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqxiu"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="Main" type="Node" unique_id=238566348]
 script = ExtResource("1_0wfyh")
 
@@ -37,7 +179,7 @@ script = ExtResource("2_jkv2x")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=1527139675]
 stream = SubResource("AudioStreamRandomizer_dqxiu")
-volume_db = -6.0
+volume_db = -80.0
 autoplay = true
 
 [node name="ServerManager" type="Node" parent="." unique_id=1272941462]
@@ -45,5 +187,37 @@ script = ExtResource("1_o5qli")
 
 [node name="GameNetworkManager" type="Node" parent="." unique_id=13738448]
 script = ExtResource("3_jyhfs")
+
+[node name="boot" type="CanvasLayer" parent="." unique_id=955124715]
+layer = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="boot" unique_id=2122987927]
+libraries/ = SubResource("AnimationLibrary_gqmmt")
+autoplay = &"bootup"
+
+[node name="PanelContainer" type="PanelContainer" parent="boot" unique_id=1566055030]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_dqxiu")
+
+[node name="bg" type="PanelContainer" parent="boot/PanelContainer" unique_id=1194401817]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_muem4")
+
+[node name="logo" type="TextureRect" parent="boot/PanelContainer" unique_id=1342390336]
+modulate = Color(0, 15.088993, 0, 1)
+layout_mode = 2
+texture = ExtResource("15_jbj1t")
+stretch_mode = 3
+
+[node name="flash" type="PanelContainer" parent="boot/PanelContainer" unique_id=1778773382]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_dqxiu")
 
 [node name="Console" parent="." unique_id=457722318 instance=ExtResource("3_sugp2")]

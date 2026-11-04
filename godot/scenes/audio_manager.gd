@@ -3,6 +3,15 @@ extends Node
 
 @onready var audioPlayer:AudioStreamPlayer = $AudioStreamPlayer
 
+func _ready() -> void:
+	var tween = create_tween()
+	tween.tween_property(audioPlayer, "volume_linear", 0.8, 6.0)
+	boot()
+	
+func boot() -> void:
+	await get_tree().create_timer(0.8).timeout
+	playSfx(load("res://_assets/sfx/openchime.wav"), 0.8)
+
 func playSfx(stream: AudioStream, volLinear: float = 0.8) -> void:
 	var player := AudioStreamPlayer.new()
 	add_child(player)

@@ -1,10 +1,12 @@
 extends CanvasLayer
 # UI/Scene for console
 
-@onready var rtlTerminal:RichTextLabel = $CanvasLayer/Console/HBoxContainer/VBoxContainer/rtlTerminal
-@onready var rtlChat:RichTextLabel = $CanvasLayer/Console/HBoxContainer/Sidebar/VBoxContainer/rtlWorldChat
-@onready var rtlPrompt:RichTextLabel = $CanvasLayer/Console/HBoxContainer/VBoxContainer/inputline/HBoxContainer/rtlPrompt
-@onready var txtInput:LineEdit =  $CanvasLayer/Console/HBoxContainer/VBoxContainer/inputline/HBoxContainer/txtInput
+@onready var rtlTerminal:RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/rtlTerminal
+@onready var rtlChat:RichTextLabel = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/rtlWorldChat
+@onready var rtlPrompt:RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer/rtlPrompt
+@onready var txtInput:LineEdit =  $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer/txtInput
+
+var historyIndex:int = -1 # the current history index when browsing command history
 
 func setup() -> void:	
 	Globals.consoleManager.outputPrinted.connect(_on_output_printed)
@@ -68,7 +70,7 @@ func _on_input_submitted(input: String) -> void:
 		return
 		
 	# random chance for weird sfx
-	if randi_range(1, 100) <= 25: Globals.audioManager.playRandomGlitch()
+	if randi_range(1, 100) <= 33: Globals.audioManager.playRandomGlitch()
 	
 	txtInput.clear()
 	Globals.consoleManager.submitInput(input)
