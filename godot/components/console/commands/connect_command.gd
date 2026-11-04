@@ -20,13 +20,12 @@ func execute(_args: Array[String]) -> void:
 	if result == true:
 		Globals.consoleManager.printOutputWithSFX("Connected to network %s." % Globals.gameNetworkManager.activeNetwork.networkName, Globals.Colors["CONSOLE"]["FONT_NETWORKING"],25,"confirm")
 		Globals.consoleManager.registerCommand(DisconnectCommand.new())
-		
-	# display motd and readme, if the network has them
-	if Globals.gameNetworkManager.activeNetwork.resolvePath("/readme.txt").size() > 0:
-		Globals.consoleManager.printOutput(Globals.gameNetworkManager.activeNetwork.readFile("/readme.txt"))
-	if Globals.gameNetworkManager.activeNetwork.resolvePath("/motd.txt").size() > 0:
-		Globals.consoleManager.printOutput(Globals.gameNetworkManager.activeNetwork.readFile("/motd.txt"))
+			
+		# display motd and readme, if the network has them
+		var readme:String =  Globals.gameNetworkManager.activeNetwork.readFile("/readme.txt")
+		if readme != "": Globals.consoleManager.printOutput(readme)
+		var motd:String =  Globals.gameNetworkManager.activeNetwork.readFile("/motd.txt")
+		if motd != "": Globals.consoleManager.printOutput(motd)
 	
-		
 	else: 	Globals.consoleManager.printOutputWithSFX("Could not connect to network %s." % _args[0], Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 	

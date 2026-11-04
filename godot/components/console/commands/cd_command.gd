@@ -40,13 +40,8 @@ func execute(_args: Array[String]) -> void:
 				Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 				return
 
-	if network.changeDirectory(path):
-		pass
-		#Globals.consoleManager.printOutput(network.getCurrentPath())
-	else:
-		Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
+	if network.changeDirectory(path): pass #Globals.consoleManager.printOutput(network.getCurrentPath())
+	else: Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
 
-
-func validatePassword(value: String) -> String:
-	if value: return ""
-	else:	return ""
+func validatePassword(_value: String) -> String:
+	return ""

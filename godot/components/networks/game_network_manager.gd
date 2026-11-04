@@ -22,7 +22,7 @@ func connectTo(networkName: String) -> bool:
 	disconnectFrom()
 	activeNetwork = networks[networkName]
 	activeNetwork.resetSession()
-	networkConnected.emit(activeNetwork)
+	#networkConnected.emit(activeNetwork)
 	
 	return true
 

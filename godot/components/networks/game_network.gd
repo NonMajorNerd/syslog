@@ -148,5 +148,5 @@ func readFile(path: String) -> String:
 	return node.get("content", "")
 
 func resetSession() -> void:
-	currentPath.clear()
+	currentPath = [] #.clear() does not trigger setter
 	unlockedPaths.clear()

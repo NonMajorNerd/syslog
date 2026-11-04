@@ -28,10 +28,10 @@ func execute(_args: Array[String]) -> void:
 	var exists:int = await Globals.serverManager.authenticate_async(username, "", password, false)
 	if exists != OK: Globals.consoleManager.printOutputWithSFX("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"],50,"decline")
 	else:
-		var result:int = await Globals.serverManager.authenticate_async(username, "", password, false)
-		if result == OK:
+		#var result:int = await Globals.serverManager.authenticate_async(username, "", password, false)
+		#if result == OK:
 			var cresult:int = await Globals.serverManager.connectSocket()
 			if cresult == OK:
 				Globals.consoleManager.printOutputWithSFX("Connected as user %s." % username, Globals.Colors["CONSOLE"]["FONT_SUCCESS"],50,"confirm")
 				Globals.serverManager.connectToWorld(username)
-		else: Globals.consoleManager.printOutputWithSFX("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"],50,"decline")
+			else: Globals.consoleManager.printOutputWithSFX("%s" % Globals.serverManager.errorMessage, Globals.Colors["CONSOLE"]["FONT_FAILURE"],50,"decline")

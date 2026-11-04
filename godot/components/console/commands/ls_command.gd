@@ -15,11 +15,13 @@ func execute(_args: Array[String]) -> void:
 	for a in _args: path += " " + a
 	path = path.strip_edges()
 
-	#if network == null: Globals.consoleManager.printOutput("Not connected.")
-
-	if network.isLocked(path): Globals.consoleManager.printOutputWithSFX("Not authorized to view contents of that directory.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
-
+	if network.isLocked(path):
+		Globals.consoleManager.printOutputWithSFX("Not authorized to view contents of that directory.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
+		return
+		
 	var node := network.getNode(path)
-	if node.get("type") != "directory": Globals.consoleManager.printOutputWithSFX("Directory not found.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
-
+	if node.get("type") != "directory":
+		Globals.consoleManager.printOutputWithSFX("Directory not found.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
+		return
+		
 	Globals.consoleManager.printOutput("\n".join(network.listDirectory(path)))

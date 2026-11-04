@@ -17,9 +17,11 @@ func execute(_args: Array[String]) -> void:
 
 	if network.isLocked(path):
 		Globals.consoleManager.printOutputWithSFX("User not authorized to view the contents of this file.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
-		
+		return
 		
 	var node := network.getNode(path)
-	if node.get("type") != "file": Globals.consoleManager.printOutputWithSFX("File not found.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
+	if node.get("type") != "file":
+		Globals.consoleManager.printOutputWithSFX("File not found.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
+		return
 		
 	Globals.consoleManager.printOutput(network.readFile(path))

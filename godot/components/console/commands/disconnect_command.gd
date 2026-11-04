@@ -14,7 +14,7 @@ func execute(_args: Array[String]) -> void:
 	if _args.size() != 0: Globals.consoleManager.printOutput("%s - %s" % commandName,usage)
 	if Globals.gameNetworkManager.activeNetwork.networkName == "homenet":
 		Globals.consoleManager.printOutput("Cannot disconnect from home network.", Globals.Colors["CONSOLE"]["FONT_FAILURE"])
-	else:
-		Globals.gameNetworkManager.disconnectFrom()
-		Globals.consoleManager.printOutput("Disconnected from network.", Globals.Colors["CONSOLE"]["FONT_NETWORKING"])
-	
+		return
+
+	Globals.gameNetworkManager.disconnectFrom()
+	Globals.consoleManager.printOutput("Disconnected from network.", Globals.Colors["CONSOLE"]["FONT_NETWORKING"])
