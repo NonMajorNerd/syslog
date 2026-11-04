@@ -1,14 +1,16 @@
-extends Control
+extends CanvasLayer
 # UI/Scene for console
 
-@onready var rtlTerminal:RichTextLabel = $HBoxContainer/VBoxContainer/rtlTerminal
-@onready var rtlChat:RichTextLabel = $HBoxContainer/Sidebar/VBoxContainer/rtlWorldChat
-@onready var rtlPrompt:RichTextLabel = $HBoxContainer/VBoxContainer/inputline/HBoxContainer/rtlPrompt
-@onready var txtInput:LineEdit = $HBoxContainer/VBoxContainer/inputline/HBoxContainer/txtInput
+@onready var rtlTerminal:RichTextLabel = $CanvasLayer/Console/HBoxContainer/VBoxContainer/rtlTerminal
+@onready var rtlChat:RichTextLabel = $CanvasLayer/Console/HBoxContainer/Sidebar/VBoxContainer/rtlWorldChat
+@onready var rtlPrompt:RichTextLabel = $CanvasLayer/Console/HBoxContainer/VBoxContainer/inputline/HBoxContainer/rtlPrompt
+@onready var txtInput:LineEdit =  $CanvasLayer/Console/HBoxContainer/VBoxContainer/inputline/HBoxContainer/txtInput
 
 func setup() -> void:	
 	Globals.consoleManager.outputPrinted.connect(_on_output_printed)
 	Globals.consoleManager.chatPrinted.connect(_on_chat_printed)
+	Globals.gameNetworkManager.networkConnected.connect(onNetworkPathChange)
+	Globals.gameNetworkManager.pathChanged.connect(onNetworkPathChange)
 	Globals.consoleManager.promptChanged.connect(_on_prompt_changed)
 	Globals.consoleManager.inputEnabledChanged.connect(_on_input_enabled_changed)
 	txtInput.text_submitted.connect(_on_input_submitted)
@@ -18,9 +20,22 @@ func setup() -> void:
 	txtInput.grab_focus()
 	clearPrompt()
 
+func onNetworkPathChange(_var) -> void: 
+	clearPrompt()
+
 func clearPrompt() -> void:
-	#if not logged in:
-	rtlPrompt.text = "unauth@local:/$"
+	var nick:String = "unauth"
+	var net:String = "local"
+	var path:String = "/"
+	var auth:String = "$"
+	
+	if Globals.playerHandle.realName != "": nick = Globals.playerHandle.realName #nickname once available
+	if Globals.gameNetworkManager.activeNetwork:
+		net = Globals.gameNetworkManager.activeNetwork.networkName.to_lower()
+		path = Globals.gameNetworkManager.activeNetwork.getCurrentPath() 
+	if net == "homenet": auth = "#"
+	
+	rtlPrompt.text = "%s@%s:%s%s" %[nick, net, path, auth]
 
 func _on_chat_printed(msg:String, clr:Color) -> void:
 	if not msg: return
@@ -51,7 +66,10 @@ func _on_input_submitted(input: String) -> void:
 		
 	if input.strip_edges().is_empty() and not isPromptInput:
 		return
-
+		
+	# random chance for weird sfx
+	if randi_range(1, 100) <= 25: Globals.audioManager.playRandomGlitch()
+	
 	txtInput.clear()
 	Globals.consoleManager.submitInput(input)
 

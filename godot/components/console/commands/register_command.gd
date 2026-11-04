@@ -32,7 +32,8 @@ func execute(_args: Array[String]) -> void:
 
 func validateUsername(value: String) -> String:
 	# todo :: check against existing usernames, centralize these off of the individual commands
-	return""
+	if value: return ""
+	else:	return ""
 
 func validateEmail(value: String) -> String:
 	# todo :: check against existing emails, centralize these off of the individual commands
@@ -40,7 +41,6 @@ func validateEmail(value: String) -> String:
 			return "Please enter a valid email address."
 	return ""
 	
-
 func validatePassword(value: String) -> String:
 	if value.length() < 8:
 		return "Password must be at least 8 characters."

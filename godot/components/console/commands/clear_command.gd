@@ -12,13 +12,3 @@ func _init() -> void:
 #func execute(_context: ConsoleContext, _args: Array[String]) -> void:
 func execute(_args: Array[String]) -> void:
 	Globals.consoleManager.clearOutput()
-
-func getHelp() -> String:
-	var helpText: String = commandName + " - " + description + "\nUsage: " + usage
-
-	if not aliases.is_empty():
-		var aliasText: String = ", ".join(aliases)
-		helpText += "\nAliases: " + aliasText
-	else: helpText += "\nAliases: None"
-
-	return helpText

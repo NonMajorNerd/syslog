@@ -18,12 +18,3 @@ func execute(_args: Array[String]) -> void:
 	if msgAck.is_exception():
 				print("Error sending message: ", msgAck.get_exception().message)
 				return
-func getHelp() -> String:
-	var helpText: String = commandName + " - " + description + "\nUsage: " + usage
-
-	if not aliases.is_empty():
-		var aliasText: String = ", ".join(aliases)
-		helpText += "\nAliases: " + aliasText
-	else: helpText += "\nAliases: None"
-
-	return helpText

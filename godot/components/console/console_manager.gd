@@ -9,7 +9,6 @@ signal inputEnabledChanged(enabled:bool)
 signal inputSubmitted(value:String)
 signal inputCancelled
 
-
 var commands: Dictionary[String, ConsoleCommand] = {}
 
 # info on currently running command/prompt
@@ -23,6 +22,7 @@ func _ready() -> void:
 	registerCommand(HelpCommand.new())
 	registerCommand(RegisterCommand.new())
 	registerCommand(SignonCommand.new())
+	registerCommand(volumeCommand.new())
 	
 # adds a command and all aliases to the commands list
 func registerCommand(command: ConsoleCommand) -> void:
@@ -82,8 +82,7 @@ func executeLine(line: String) -> void:
 	# await for commands that require additional input
 	@warning_ignore("redundant_await")
 	await commandToExecute.execute(args)
-	#await commandToExecute.execute(context, args)
-
+	
 	activeCommand = null
 	isCommandRunning = false
 

@@ -1,10 +1,11 @@
 class_name ServerManager
 extends Node
 
-const KEY:String = "fuckoff"
-#const WORLD_ID:String = ""
+const KEY:String = "getfucked"
+var client:NakamaClient = Nakama.create_client(KEY, "fuckyoudie", 7350, "http")
 
-var client:NakamaClient = Nakama.create_client(KEY, "eatmyassandballs", 7350, "http")
+
+
 var session:NakamaSession #session.AuthToken #session.RefreshToken
 var socket:NakamaSocket # client.NewSocket();
 var channelWorldChat: NakamaRTAPI.Channel
@@ -56,9 +57,22 @@ func connectSocket() -> int:
 	#
 	#return result
 
-func connectToWorld() -> void:
+func connectToWorld(un:String) -> void:
+	# this should probably get moved to main
+	# gets called by signon command currently
+	
+	Globals.playerHandle.loadHandle(un)
+	Globals.gameNetworkManager.activeNetwork = Globals.playerHandle.rig.homeNet
+	
 	#joinWorld()
 	connectToChat()
+	
+	#if first time connecting:
+	Globals.consoleManager.registerCommand(catCommand.new())
+	Globals.consoleManager.registerCommand(cdCommand.new())
+	Globals.consoleManager.registerCommand(lsCommand.new())
+	Globals.consoleManager.registerCommand(scoutCommand.new())
+	
 	
 	
 func connectToChat() -> void:
