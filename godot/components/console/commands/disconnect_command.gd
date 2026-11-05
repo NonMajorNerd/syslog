@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "disconnect"
 	aliases = [""]
 	category = "Networking"
-	description = "Disconnect from the current active network."
+	description = "Disconnect from the active network."
 	usage = "disconnect"
 	isHidden = false # used to hide internal commands from standard help
 

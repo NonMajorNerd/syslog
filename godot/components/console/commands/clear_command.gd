@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "clear"
 	aliases = ["cls"]
 	category = "General"
-	description = "Clears the terminal of text."
+	description = "Clear the terminal of text."
 	usage = "clear"
 	isHidden = false # used to hide internal commands from standard help
 

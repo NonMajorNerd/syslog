@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "volume"
 	aliases = ["vol"]
 	category = "General"
-	description = "Set the volume of the background music."
+	description = "Set the volume of the music and sound effects."
 	usage = "volume [0-100]"
 	isHidden = false # used to hide internal commands from standard help
 

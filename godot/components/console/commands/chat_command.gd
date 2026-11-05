@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "chat"
 	aliases = ["say"]
 	category = "General"
-	description = "Allows you to send messages in world chat."
+	description = "Send a message in global chat."
 	usage = "chat [message]"
 	isHidden = false # used to hide internal commands from standard help
 

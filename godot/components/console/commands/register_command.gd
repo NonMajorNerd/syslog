@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "register"
 	aliases = ["signup"]
 	category = "Account"
-	description = "Creates a new user."
+	description = "Create a new user."
 	usage = "register"
 
 func execute(_args: Array[String]) -> void:

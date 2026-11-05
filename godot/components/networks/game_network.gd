@@ -120,13 +120,6 @@ func changeDirectory(path: String) -> bool:
 	currentPath = resolvePath(path)
 	return true
 
-
-# icon definitions
-# 📁 Directory
-# 🔒 Locked Directory
-# 🔓 Unlocked Directory
-# 📄 File
-
 func listDirectory(path: String = ".") -> Array[String]:
 	var result:Array[String] = []
 	var names:Array[String] = []
@@ -147,17 +140,17 @@ func listDirectory(path: String = ".") -> Array[String]:
 	# prepend icons
 	for name in names:
 		var child: Dictionary = node["children"][name]
-		var icon: String = "📄"
+		var icon: String = "[~]" #file
 
 		if child.get("type") == "directory":
 			var childPath: String = "/".join([path, name])
 
-			if isLocked(childPath): icon = "🔒"
+			if isLocked(childPath): icon = "[#]" # locked dir
 			else: 
-				icon = "📁"
+				icon = "[+]" # regular dir
 				if Globals.playerHandle.networks.keys().has(networkID):
 					if Globals.playerHandle.networks[networkID].has(childPath):
-						icon = "🔓"
+						icon = "[-]" # unlocked dir
 					
 		result.append("%s %s" % [icon, name])
 	

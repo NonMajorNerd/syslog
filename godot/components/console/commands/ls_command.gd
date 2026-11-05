@@ -7,7 +7,7 @@ func _init() -> void:
 	commandName = "ls"
 	aliases = []
 	category = "General"
-	description = "Lists the contents of the current directory."
+	description = "List the contents of the current directory."
 	usage = "ls"
 	isHidden = false # used to hide internal commands from standard help
 

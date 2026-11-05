@@ -9,7 +9,7 @@ func _init() -> void:
 	commandName = "signon"
 	aliases = ["logon", "so", "lo"]
 	category = "Account"
-	description = "Connects as a registered user."
+	description = "Connect as a registered user."
 	usage = "signon"
 
 func validateUsername(_value: String) -> String: return ""

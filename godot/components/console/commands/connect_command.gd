@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "connect"
 	aliases = [""]
 	category = "Networking"
-	description = "Connect to a network via an available connection."
+	description = "Connect to an available network."
 	usage = "connect [network]"
 	isHidden = false # used to hide internal commands from standard help
 

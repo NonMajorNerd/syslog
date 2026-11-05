@@ -5,7 +5,7 @@ func _init() -> void:
 	commandName = "scout"
 	aliases = ["search"]
 	category = "Networking"
-	description = "Scan for nearby networks with available connections."
+	description = "Scan for available networks."
 	usage = "scout"
 	isHidden = false # used to hide internal commands from standard help
 

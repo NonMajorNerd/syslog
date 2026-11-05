@@ -13,7 +13,7 @@ func _init() -> void:
 	commandName = "help"
 	aliases = ["?"]
 	category = "General"
-	description = "Displays command information."
+	description = "Display command information."
 	usage = "help [command]"
 
 
