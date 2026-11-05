@@ -4,6 +4,7 @@ extends RefCounted
 signal currentPathChanged(path:String)
 
 var networkName: String
+var networkID:int
 var root: Dictionary
 var currentPath: Array[String] = []:
 	set(v):
@@ -12,8 +13,9 @@ var currentPath: Array[String] = []:
 		
 var unlockedPaths: Dictionary = {}
 
-func _init(name: String, fileTree: Dictionary) -> void:
+func _init(name: String, ID:int, fileTree: Dictionary) -> void:
 	networkName = name
+	networkID = ID
 	root = fileTree
 
 func getCurrentPath() -> String:

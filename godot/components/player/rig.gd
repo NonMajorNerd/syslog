@@ -66,6 +66,6 @@ var homeFiletree:Dictionary = {
 	}
 }
 
-var homeNet:GameNetwork = GameNetwork.new("homenet", homeFiletree)
+var homeNet:GameNetwork = GameNetwork.new("homenet", 0, homeFiletree)
 
 #var REFLEXES:Dictionary = {1:{} } # a dictionary of the 4 reflex slots and their current configuration

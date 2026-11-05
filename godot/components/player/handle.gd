@@ -17,5 +17,21 @@ var heat:float = 0.0 												# 0-100 how much attention a handle is drawing.
 #var clearance:int = 0 											# TBD 1-5 the highest target tier the handle has unlocked since last prestige
 #var echoes: int = 0													# TBD prestige
 
+var networks:Dictionary[int,Array] = {0:[]}			# dictionary of networks connected to, each containing an array of locked dirs unlocked
+
+func onNetworkConnected(network:GameNetwork) -> void:
+	if not network: return
+	if not networks.keys().has(network.networkID): networks[network.networkID] = []
+
+func onPathUnlocked(network:GameNetwork, path:String) -> void:
+	if not network or not path: return
+	if not networks.keys().has(network.networkID): networks[network.networkID] = [path]
+	else: networks[network.networkID].append(path)
+	
 func loadHandle(username:String) -> void:
+	if not username: return
+	
 	realName = username
+	
+	Globals.gameNetworkManager.connect("networkConnected", onNetworkConnected)
+	

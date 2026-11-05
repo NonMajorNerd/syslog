@@ -22,7 +22,6 @@ func connectTo(networkName: String) -> bool:
 	disconnectFrom()
 	activeNetwork = networks[networkName]
 	activeNetwork.resetSession()
-	#networkConnected.emit(activeNetwork)
 	
 	return true
 
@@ -337,5 +336,5 @@ func loadHelix() -> void:
 	}
 }
 
-	var network := GameNetwork.new("HelixDynamics", HelixDynamics_Filetree)
+	var network := GameNetwork.new("HelixDynamics", 1, HelixDynamics_Filetree)
 	Globals.gameNetworkManager.registerNetwork(network)
