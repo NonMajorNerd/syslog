@@ -60,8 +60,8 @@ func connectToWorld(un:String) -> void:
 	# gets called by signon command currently
 	
 	Globals.playerHandle.loadHandle(un)
-	Globals.gameNetworkManager.activeNetwork = Globals.playerHandle.rig.homeNet
-	
+	#Globals.gameNetworkManager.activeNetwork = Globals.playerHandle.rig.homeNet
+	Globals.gameNetworkManager.activateNetwork(Globals.playerHandle.rig.homeNet)
 	#joinWorld()
 	connectToChat()
 	

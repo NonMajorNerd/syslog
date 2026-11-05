@@ -8,51 +8,41 @@ func _init() -> void:
 	description = "Change the working directory."
 	usage = "cd [directory]"
 	isHidden = false # used to hide internal commands from standard help
+	
+func execute(args: Array[String]) -> void:
+	var network: GameNetwork = Globals.gameNetworkManager.activeNetwork
 
-func execute(_args: Array[String]) -> void:
-	var network:GameNetwork = Globals.gameNetworkManager.activeNetwork
-	var path:String = ""
-	for a in _args: path += " " + a
-	path = path.strip_edges()
+	if network == null:
+		Globals.consoleManager.printOutput("Not connected.")
+		return
 
-	var node := network.getNode(path)
+	var path: String = " ".join(args).strip_edges()
+	if path.is_empty(): path = "/"
 
+	var node: Dictionary = network.getNode(path)
 	if node.get("type") != "directory":
 		Globals.consoleManager.printOutput("Directory not found.", Globals.Colors["CONSOLE"]["FONT_FAILURE"])
 		return
 
-	var parts := network.resolvePath(path)
-	#var absolutePath := "/" + "/".join(parts)
-	var dP2:String = ""
-	var unlocked:bool = false
+	var parts: Array[String] = network.resolvePath(path)
+	var traversed: Array[String] = []
 
-	if network.isLocked(path):
-		# Find the first locked directory in the path.
-		var traversed: Array[String] = []
+	for part in parts:
+		traversed.append(part)
 
-		for part in parts:
-			traversed.append(part)
-			var directoryPath:String = "/" + "/".join(traversed)
+		var directoryPath: String = "/" + "/".join(traversed)
 
-			# skip this part if it's not locked
-			if not network.isLocked(directoryPath): continue
+		if not network.isLocked(directoryPath): continue
 
-			# skip this part if it is locked, but has previously been unlocked
-			if Globals.playerHandle.networks.keys().has(network.networkID):
-				if Globals.playerHandle.networks[network.networkID].has(directoryPath): continue
-			
-			dP2 = directoryPath
-			var password = await Globals.consoleManager.requestInput("Password:", validatePassword, true)
-			
-			if not password: return 
-			if not network.unlock(directoryPath, password):
-				Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
-				return
-			else: unlocked = true
+		var password: Variant = await Globals.consoleManager.requestInput("Password:", validatePassword, true)
+		if password == null: return
 
-	if network.changeDirectory(path):
-		if unlocked: Globals.playerHandle.onPathUnlocked(network, dP2)
-	else: Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"],25,"decline")
+		if not network.unlock(directoryPath, str(password)):
+			Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"], 25, "decline")
+			return
 
+	if not network.changeDirectory(path):
+		Globals.consoleManager.printOutputWithSFX("Access denied.", Globals.Colors["CONSOLE"]["FONT_FAILURE"], 25, "decline")
+		
 func validatePassword(_value: String) -> String:
 	return ""

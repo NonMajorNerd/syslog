@@ -159,7 +159,7 @@ func cancelInput() -> void:
 	inputCancelled.emit()
 
 func printOutputWithSFX(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"], chance:int=25, type:String="glitch"):
-	if randi_range(1, chance) <= 33: Globals.audioManager.playRandom(type)
+	if randi_range(1, chance) <= chance: Globals.audioManager.playRandom(type)
 	outputPrinted.emit(message, color)
 
 func printOutput(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"]) -> void:

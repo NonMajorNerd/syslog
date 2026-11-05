@@ -2,11 +2,12 @@ class_name GameNetwork
 extends RefCounted
 
 signal currentPathChanged(path:String)
+signal directoryUnlocked(network:GameNetwork, path:String)
 
-var networkName: String
+var networkName:String
 var networkID:int
-var root: Dictionary
-var currentPath: Array[String] = []:
+var root:Dictionary
+var currentPath:Array[String] = []:
 	set(v):
 		currentPath = v
 		currentPathChanged.emit(getCurrentPath())
@@ -50,6 +51,10 @@ func resolvePath(path: String) -> Array[String]:
 
 	return result
 
+func getAbsolutePath(path: String) -> String:
+	var parts: Array[String] = resolvePath(path)
+	if parts.is_empty(): return "/"
+	return "/" + "/".join(parts)
 
 func getNode(path: String) -> Dictionary:
 	var parts := resolvePath(path)
@@ -87,31 +92,32 @@ func isLocked(path: String) -> bool:
 
 	return false
 
-
 func unlock(path: String, password: String) -> bool:
-	var parts := resolvePath(path)
-	var node := getNode(path)
+	var absolutePath: String = getAbsolutePath(path)
+	var node: Dictionary = getNode(absolutePath)
 
-	if node.get("type") != "directory":
-		return false
+	if node.get("type") != "directory": return false
+
+	var parts: Array[String] = resolvePath(absolutePath)
 
 	# Parent directories must already be accessible.
 	if parts.size() > 1:
-		var parentParts := parts.duplicate()
+		var parentParts: Array[String] = parts.duplicate()
 		parentParts.pop_back()
 
-		if isLocked("/" + "/".join(parentParts)):
-			return false
+		var parentPath: String = "/" + "/".join(parentParts)
+
+		if isLocked(parentPath): return false
 
 	var requiredPassword: String = node.get("password", "")
-
 	if requiredPassword.is_empty(): return true
+	if unlockedPaths.has(absolutePath): return true
 	if password != requiredPassword: return false
 
-	unlockedPaths["/" + "/".join(parts)] = true
+	unlockedPaths[absolutePath] = true
+	directoryUnlocked.emit(self, absolutePath)
+
 	return true
-
-
 func changeDirectory(path: String) -> bool:
 	var node := getNode(path)
 	if node.get("type") != "directory": return false
@@ -119,44 +125,32 @@ func changeDirectory(path: String) -> bool:
 
 	currentPath = resolvePath(path)
 	return true
-
-func listDirectory(path: String = ".") -> Array[String]:
-	var result:Array[String] = []
-	var names:Array[String] = []
 	
-	var node := getNode(path)
+func listDirectory(path: String = ".") -> Array[String]:
+	var result: Array[String] = []
+	var node: Dictionary = getNode(path)
+
 	if node.get("type") != "directory" or isLocked(path): return result
 
-	for name in node.get("children", {}):
-		var child: Dictionary = node["children"][name]
-
-		if child.get("type") == "directory":
-			names.append(name)
-		else:
-			names.append(name)
-
+	var children: Dictionary = node.get("children", {})
+	var names: Array = children.keys()
 	names.sort()
-	
-	# prepend icons
+
 	for name in names:
-		var child: Dictionary = node["children"][name]
-		var icon: String = "[~]" #file
+		var child: Dictionary = children[name]
+		var icon: String = "[~]" # file
 
 		if child.get("type") == "directory":
-			var childPath: String = "/".join([path, name])
+			var childPath: String = getAbsolutePath( getAbsolutePath(path).path_join(str(name)) )
 
-			if isLocked(childPath): icon = "[#]" # locked dir
-			else: 
-				icon = "[+]" # regular dir
-				if Globals.playerHandle.networks.keys().has(networkID):
-					if Globals.playerHandle.networks[networkID].has(childPath):
-						icon = "[-]" # unlocked dir
-					
+			if isLocked(childPath): icon = "[!]" # locked dir
+			elif not str(child.get("password", "")).is_empty(): icon = "[+]" # unlocked dir
+			else: icon = "[#]" # public dir
+
 		result.append("%s %s" % [icon, name])
-	
+
 	return result
-
-
+	
 func readFile(path: String) -> String:
 	if isLocked(path): return ""
 

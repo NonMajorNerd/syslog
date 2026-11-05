@@ -7,38 +7,74 @@ signal networkDisconnected(network: GameNetwork)
 
 var networks: Dictionary = {}
 var activeNetwork: GameNetwork:
-	set(aN):
-		if activeNetwork: activeNetwork.disconnect("currentPathChanged", onPathChanged)
-		activeNetwork = aN
-		networkConnected.emit(activeNetwork)
-		activeNetwork.connect("currentPathChanged", onPathChanged)
-		
+	set(value):
+		if activeNetwork != null:
+			if activeNetwork.currentPathChanged.is_connected(onPathChanged):
+				activeNetwork.currentPathChanged.disconnect(onPathChanged)
+
+		activeNetwork = value
+
+		if activeNetwork != null:
+			activeNetwork.currentPathChanged.connect(onPathChanged)
+			networkConnected.emit(activeNetwork)
+			
 func onPathChanged(path:String) -> void: pathChanged.emit(path)
 func registerNetwork(network: GameNetwork) -> void: networks[network.networkName] = network
+func isConnected() -> bool: return activeNetwork != null
 
+func activateNetwork(network: GameNetwork) -> void:
+	if network == null: return
+
+	network.resetSession()
+
+	if Globals.playerHandle != null:
+		var savedPaths:Array = Globals.playerHandle.getUnlockedPaths(network.networkID)
+
+		#network.restoreUnlocks(savedPaths)
+
+		if not network.directoryUnlocked.is_connected(Globals.playerHandle.onPathUnlocked ):
+			network.directoryUnlocked.connect(Globals.playerHandle.onPathUnlocked)
+
+	activeNetwork = network
+	
+	
 func connectTo(networkName: String) -> bool:
 	if not networks.has(networkName): return false
 
-	disconnectFrom()
-	activeNetwork = networks[networkName]
-	activeNetwork.resetSession()
-	
+	var nextNetwork: GameNetwork = networks[networkName]
+	if activeNetwork == nextNetwork: return true
+
+	var previousNetwork: GameNetwork = activeNetwork
+
+	if previousNetwork != null:
+		activeNetwork = null
+		previousNetwork.resetSession()
+		networkDisconnected.emit(previousNetwork)
+
+	activateNetwork(nextNetwork)
+
 	return true
 
 
 func disconnectFrom() -> void:
 	if activeNetwork == null: return
 
-	var previousNetwork := activeNetwork
-	previousNetwork.resetSession()
-	if Globals.playerHandle.realName != "": activeNetwork = Globals.playerHandle.rig.homeNet
-	else: activeNetwork = null
+	var homeNetwork: GameNetwork = null
 
+	if Globals.playerHandle != null:
+		if not Globals.playerHandle.realName.is_empty():
+			homeNetwork = Globals.playerHandle.rig.homeNet
+
+	if activeNetwork == homeNetwork: return
+
+	var previousNetwork: GameNetwork = activeNetwork
+
+	activeNetwork = null
+	previousNetwork.resetSession()
 	networkDisconnected.emit(previousNetwork)
 
-
-func isConnected() -> bool: return activeNetwork != null
-
+	if homeNetwork != null: activateNetwork(homeNetwork)
+		
 
 func getAvailableNetworks() -> Array[String]:
 	var result: Array[String] = []

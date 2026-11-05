@@ -27,3 +27,11 @@ func execute(_args: Array[String]) -> void:
 		return
 		
 	Globals.consoleManager.printOutput("\n".join(network.listDirectory(path)))
+
+
+func getHelp() -> String:
+	var helpText: String = commandName + " - " + description + "\nUsage: " + usage
+	helpText += "\n\nContents are sorted by name, and the type of each item is indicated by the following icons;"
+	helpText += "\n [~] File\n [#] Public Directory\n [!] Locked Directory\n [+] Unlocked Directory" 
+
+	return helpText
