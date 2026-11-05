@@ -30,7 +30,7 @@ func activateNetwork(network: GameNetwork) -> void:
 	if Globals.playerHandle != null:
 		var savedPaths:Array = Globals.playerHandle.getUnlockedPaths(network.networkID)
 
-		#network.restoreUnlocks(savedPaths)
+		network.restoreUnlocks(savedPaths)
 
 		if not network.directoryUnlocked.is_connected(Globals.playerHandle.onPathUnlocked ):
 			network.directoryUnlocked.connect(Globals.playerHandle.onPathUnlocked)

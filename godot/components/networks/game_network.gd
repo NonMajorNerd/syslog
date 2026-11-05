@@ -118,6 +118,19 @@ func unlock(path: String, password: String) -> bool:
 	directoryUnlocked.emit(self, absolutePath)
 
 	return true
+	
+func restoreUnlocks(paths: Array) -> void:
+	unlockedPaths.clear()
+
+	for path in paths:
+		var absolutePath: String = getAbsolutePath(str(path))
+		var node: Dictionary = getNode(absolutePath)
+
+		if node.get("type") != "directory": continue
+		if str(node.get("password", "")).is_empty(): continue
+
+		unlockedPaths[absolutePath] = true
+	
 func changeDirectory(path: String) -> bool:
 	var node := getNode(path)
 	if node.get("type") != "directory": return false

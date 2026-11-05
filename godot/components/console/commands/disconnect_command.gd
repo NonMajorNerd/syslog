@@ -12,7 +12,7 @@ func _init() -> void:
 #func execute(_context: ConsoleContext, _args: Array[String]) -> void:
 func execute(_args: Array[String]) -> void:
 	if _args.size() != 0:
-		Globals.consoleManager.printOutput("%s - %s" % commandName,usage)
+		Globals.consoleManager.printOutput("%s - %s" % [commandName,usage])
 		return
 		
 	if Globals.gameNetworkManager.activeNetwork.networkName == "homenet":

@@ -12,7 +12,7 @@ func _init() -> void:
 #func execute(_context: ConsoleContext, _args: Array[String]) -> void:
 func execute(_args: Array[String]) -> void:
 	if _args.size() != 1:
-		Globals.consoleManager.printOutput("%s - %s" % commandName,usage)
+		Globals.consoleManager.printOutput("%s - %s" % [commandName,usage])
 		return
 	Globals.consoleManager.printOutput("Connecting to network %s." % _args[0])
 	await Globals.get_tree().create_timer(randf_range(0.3, 1.3)).timeout

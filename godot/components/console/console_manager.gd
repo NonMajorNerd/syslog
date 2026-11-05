@@ -61,12 +61,13 @@ func registerCommand(command: ConsoleCommand, multi=false) -> bool:
 # adds multiple commands at once, provides one bulk signal emit
 func registerCommandsBulk(commands:Array[ConsoleCommand]):
 	var commandNames:Array = []
-	commands.sort()
+	commands.sort_custom(func(a: ConsoleCommand, b: ConsoleCommand) -> bool:
+												return a.commandName < b.commandName
+												)
 	for command in commands:
 		if registerCommand(command,true): commandNames.append(command.commandName)
-	var msg:String = ""
-	for cn in commandNames: msg += cn + ", "
-	commandsRegistered.emit(msg.left(msg.length()-2))
+		
+	if not commandNames.is_empty():  commandsRegistered.emit(", ".join(commandNames))
 
 func executeLine(line: String) -> void:
 	if isCommandRunning: return
@@ -159,7 +160,7 @@ func cancelInput() -> void:
 	inputCancelled.emit()
 
 func printOutputWithSFX(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"], chance:int=25, type:String="glitch"):
-	if randi_range(1, chance) <= chance: Globals.audioManager.playRandom(type)
+	if randf() < clampf(float(chance) / 100.0, 0.0, 1.0): Globals.audioManager.playRandom(type)
 	outputPrinted.emit(message, color)
 
 func printOutput(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"]) -> void:
