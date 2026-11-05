@@ -12,6 +12,10 @@ var commandHistory: Array[String] = []
 var historyIndex: int = -1
 var historyDraft: String = ""
 
+func _ready() -> void:
+	await get_tree().create_timer(6.0).timeout
+	txtInput.editable = true
+
 func setup() -> void:	
 	Globals.consoleManager.outputPrinted.connect(_on_output_printed)
 	Globals.consoleManager.commandsRegistered.connect(_onCommandsRegistered)
@@ -22,7 +26,7 @@ func setup() -> void:
 	Globals.consoleManager.inputEnabledChanged.connect(_on_input_enabled_changed)
 	txtInput.text_submitted.connect(_on_input_submitted)
 
-	txtInput.editable = true
+	#txtInput.editable = true
 	txtInput.secret = false
 	txtInput.grab_focus()
 	clearPrompt()

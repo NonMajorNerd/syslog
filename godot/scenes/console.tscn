@@ -138,6 +138,7 @@ theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xil4p")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_t6k7n")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_buc2e")
+editable = false
 keep_editing_on_text_submit = true
 context_menu_enabled = false
 emoji_menu_enabled = false
