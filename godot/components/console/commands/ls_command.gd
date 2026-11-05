@@ -1,6 +1,8 @@
 class_name lsCommand
 extends ConsoleCommand
 
+
+
 func _init() -> void:
 	commandName = "ls"
 	aliases = []
