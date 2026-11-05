@@ -66,7 +66,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 15.088993, 0, 1)]
+"values": [Color(0.6509804, 0.85490197, 0.58431375, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -130,7 +130,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(1, 2, 4, 4.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(0, 15.087969, 0, 0), Color(0, 15.088993, 0, 1), Color(0, 15.088993, 0, 1), Color(0, 15.087969, 0, 0)]
+"values": [Color(0.6509804, 0.85490197, 0.58431375, 0), Color(0.6509804, 0.85490197, 0.58431375, 1), Color(0.6509804, 0.85490197, 0.58431375, 1), Color(0.6509804, 0.85490197, 0.58431375, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -209,7 +209,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_muem4")
 
 [node name="logo" type="TextureRect" parent="boot/PanelContainer" unique_id=1342390336]
-modulate = Color(0, 15.088993, 0, 1)
+modulate = Color(0.6509804, 0.85490197, 0.58431375, 1)
 layout_mode = 2
 texture = ExtResource("15_jbj1t")
 stretch_mode = 3

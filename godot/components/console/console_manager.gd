@@ -9,6 +9,8 @@ signal inputEnabledChanged(enabled:bool)
 signal inputSubmitted(value:String)
 signal inputCancelled
 
+signal commandsRegistered(message:String)
+
 var commands: Dictionary[String, ConsoleCommand] = {}
 
 # info on currently running command/prompt
@@ -24,20 +26,23 @@ func _ready() -> void:
 	registerCommand(SignonCommand.new())
 	registerCommand(volumeCommand.new())
 	
+
+	
 # adds a command and all aliases to the commands list
-func registerCommand(command: ConsoleCommand) -> void:
+func registerCommand(command: ConsoleCommand, multi=false) -> bool:
 	var commandName: String = command.commandName.to_lower()
 
 	if commandName.is_empty():
 		push_error("Cannot register a command without a name.")
-		return
+		return false
 
 	if commands.has(commandName):
 		push_error("Command already registered: " + commandName)
-		return
+		return false
 
 	commands[commandName] = command
-
+	if not multi: commandsRegistered.emit(commandName)
+	
 	for alias in command.aliases:
 		var aliasName: String = alias.to_lower()
 
@@ -50,7 +55,18 @@ func registerCommand(command: ConsoleCommand) -> void:
 
 		# if we haven't skipped, add alias to commands list
 		commands[aliasName] = command 
-
+		
+	return true
+	
+# adds multiple commands at once, provides one bulk signal emit
+func registerCommandsBulk(commands:Array[ConsoleCommand]):
+	var commandNames:Array = []
+	commands.sort()
+	for command in commands:
+		if registerCommand(command,true): commandNames.append(command.commandName)
+	var msg:String = ""
+	for cn in commandNames: msg += cn + ", "
+	commandsRegistered.emit(msg.left(msg.length()-2))
 
 func executeLine(line: String) -> void:
 	if isCommandRunning: return
@@ -142,15 +158,15 @@ func cancelInput() -> void:
 	if activePrompt == null: return
 	inputCancelled.emit()
 
-func printOutputWithSFX(message:String, color:Color = Color("ffffffff"), chance:int=25, type:String="glitch"):
+func printOutputWithSFX(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"], chance:int=25, type:String="glitch"):
 	if randi_range(1, chance) <= 33: Globals.audioManager.playRandom(type)
 	outputPrinted.emit(message, color)
 
-func printOutput(message:String, color:Color = Color("ffffffff")) -> void:
+func printOutput(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"]) -> void:
 	outputPrinted.emit(message, color)
 	
-func printChat(message:String, color:Color = Color("ffffffff")) -> void:
+func printChat(message:String, color:Color = Globals.Colors["CONSOLE"]["FONT_DEFAULT"]) -> void:
 	chatPrinted.emit(message, color)
 
 func clearOutput() -> void:
-	outputPrinted.emit("CODE_CLEAR",Color("ffffffff"))
+	outputPrinted.emit("CODE_CLEAR",Globals.Colors["CONSOLE"]["FONT_DEFAULT"])

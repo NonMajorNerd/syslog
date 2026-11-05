@@ -14,6 +14,7 @@ var historyDraft: String = ""
 
 func setup() -> void:	
   Globals.consoleManager.outputPrinted.connect(_on_output_printed)
+  Globals.consoleManager.commandsRegistered.connect(_onCommandsRegistered)
   Globals.consoleManager.chatPrinted.connect(_on_chat_printed)
   Globals.gameNetworkManager.networkConnected.connect(onNetworkPathChange)
   Globals.gameNetworkManager.pathChanged.connect(onNetworkPathChange)
@@ -42,6 +43,9 @@ func clearPrompt() -> void:
   if net == "homenet": auth = "#"
   
   rtlPrompt.text = "%s@%s:%s%s" %[nick, net, path, auth]
+
+func _onCommandsRegistered(cmds:String):
+  _on_output_printed("New command(s) registered; " + cmds, Globals.Colors["CONSOLE"]["FONT_NOTIF"])
 
 func _on_chat_printed(msg:String, clr:Color) -> void:
   if not msg: return

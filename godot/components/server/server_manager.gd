@@ -4,8 +4,6 @@ extends Node
 const KEY:String = "getfucked"
 var client:NakamaClient = Nakama.create_client(KEY, "fuckyoudie", 7350, "http")
 
-
-
 var session:NakamaSession #session.AuthToken #session.RefreshToken
 var socket:NakamaSocket # client.NewSocket();
 var channelWorldChat: NakamaRTAPI.Channel
@@ -68,12 +66,11 @@ func connectToWorld(un:String) -> void:
 	connectToChat()
 	
 	#if first time connecting:
-	Globals.consoleManager.registerCommand(catCommand.new())
-	Globals.consoleManager.registerCommand(cdCommand.new())
-	Globals.consoleManager.registerCommand(lsCommand.new())
-	Globals.consoleManager.registerCommand(scoutCommand.new())
-	
-	
+	Globals.consoleManager.registerCommandsBulk([catCommand.new(), ChatCommand.new(), cdCommand.new(), lsCommand.new(), scoutCommand.new()])
+	#Globals.consoleManager.registerCommand(catCommand.new())
+	#Globals.consoleManager.registerCommand(cdCommand.new())
+	#Globals.consoleManager.registerCommand(lsCommand.new())
+	#Globals.consoleManager.registerCommand(scoutCommand.new())
 	
 func connectToChat() -> void:
 	var roomname = "WorldChat"
@@ -82,7 +79,6 @@ func connectToChat() -> void:
 	var type = NakamaSocket.ChannelType.Room
 	channelWorldChat = await socket.join_chat_async(roomname, type, persistence, hidden)
 	
-	Globals.consoleManager.registerCommand(ChatCommand.new())
 	socket.received_channel_message.connect(self._on_channel_message)
 	print("Now connected to channel id: '%s'" % [channelWorldChat.id])
 

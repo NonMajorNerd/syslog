@@ -9,10 +9,11 @@ var gameNetworkManager:NetworkManager
 var playerHandle:Handle = null
 
 
-var Colors:Dictionary	=	{"CONSOLE":	{ "FONT_DEFAULT": Color("ffffffff"),
-																			"FONT_SUCCESS": Color("bfffb9ff"),
-																			"FONT_FAILURE": Color("ffd0c8ff"),
-																			"FONT_NETWORKING": Color("a5e0ffff")
+var Colors:Dictionary	=	{"CONSOLE":	{ "FONT_DEFAULT": Color("#ffffff"),
+																			"FONT_NOTIF": Color("#cad3f5"), # catppuccin macchiato text
+																			"FONT_SUCCESS": Color("#a6da95"), # catppuccin macchiato green
+																			"FONT_FAILURE": Color("#ed8796"), # catppuccin macchiato red
+																			"FONT_NETWORKING": Color("#91d7e3") # catppuccin macchiato sky
 																		}
 												}
 

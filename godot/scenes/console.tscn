@@ -121,7 +121,7 @@ theme_override_constants/separation = 9
 [node name="rtlPrompt" type="RichTextLabel" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer" unique_id=1404229296]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/default_color = Color(1, 0.6901961, 0, 1)
+theme_override_colors/default_color = Color(0.9607843, 0.6627451, 0, 1)
 theme_override_font_sizes/normal_font_size = 16
 text = "unauth@local:/$"
 fit_content = true
@@ -131,8 +131,8 @@ vertical_alignment = 1
 [node name="txtInput" type="LineEdit" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer" unique_id=2125126208]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 0.6901961, 0, 1)
-theme_override_colors/caret_color = Color(1, 0.6901961, 0, 1)
+theme_override_colors/font_color = Color(0.9607843, 0.6627451, 0, 1)
+theme_override_colors/caret_color = Color(0.9607843, 0.6627451, 0, 1)
 theme_override_constants/caret_width = 11
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xil4p")
