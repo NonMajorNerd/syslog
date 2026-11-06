@@ -66,18 +66,15 @@ func _getNodeUnchecked(path: String) -> Dictionary:
 	var node: Dictionary = root
 
 	for part in resolvePath(path):
-		if node.get("type") != "directory":
-			return { }
+		if node.get("type") != "directory": return { }
 		node = node.get("children", { }).get(part, { })
-		if node.is_empty():
-			return { }
+		if node.is_empty(): return { }
 
 	return node
 
 
 func getNode(path: String) -> Dictionary:
-	if isLocked(path):
-		return { }
+	if isLocked(path): return { }
 	return _getNodeUnchecked(path)
 
 
@@ -92,12 +89,10 @@ func isLocked(path: String) -> bool:
 	var traversed: Array[String] = []
 
 	for part in resolvePath(path):
-		if node.get("type") != "directory":
-			return false
+		if node.get("type") != "directory": return false
 
 		node = node.get("children", { }).get(part, { })
-		if node.is_empty():
-			return false
+		if node.is_empty(): return false
 
 		traversed.append(part)
 
@@ -115,8 +110,7 @@ func unlock(path: String, password: String) -> bool:
 	var absolutePath: String = getAbsolutePath(path)
 	var node: Dictionary = _getNodeUnchecked(absolutePath)
 
-	if node.get("type") != "directory":
-		return false
+	if node.get("type") != "directory": return false
 
 	var parts: Array[String] = resolvePath(absolutePath)
 
@@ -125,16 +119,12 @@ func unlock(path: String, password: String) -> bool:
 		parts.pop_back()
 		var parentPath: String = "/" + "/".join(parts)
 
-		if isLocked(parentPath):
-			return false
+		if isLocked(parentPath): return false
 
 	var requiredPassword: String = node.get("password", "")
-	if requiredPassword.is_empty():
-		return true
-	if unlockedPaths.has(absolutePath):
-		return true
-	if password != requiredPassword:
-		return false
+	if requiredPassword.is_empty(): return true
+	if unlockedPaths.has(absolutePath): return true
+	if password != requiredPassword: return false
 
 	unlockedPaths[absolutePath] = true
 	directoryUnlocked.emit(self, absolutePath)
@@ -149,10 +139,8 @@ func restoreUnlocks(paths: Array) -> void:
 		var absolutePath: String = getAbsolutePath(str(path))
 		var node: Dictionary = _getNodeUnchecked(absolutePath)
 
-		if node.get("type") != "directory":
-			continue
-		if str(node.get("password", "")).is_empty():
-			continue
+		if node.get("type") != "directory": continue
+		if str(node.get("password", "")).is_empty(): continue
 
 		unlockedPaths[absolutePath] = true
 
@@ -162,8 +150,7 @@ func restoreUnlocks(paths: Array) -> void:
 func changeDirectory(path: String) -> bool:
 	var node: Dictionary = getNode(path)
 
-	if node.get("type") != "directory":
-		return false
+	if node.get("type") != "directory": return false
 
 	currentPath = resolvePath(path)
 	return true
@@ -173,8 +160,7 @@ func listDirectory(path: String = ".") -> Array[String]:
 	var result: Array[String] = []
 	var node: Dictionary = getNode(path)
 
-	if node.get("type") != "directory":
-		return result
+	if node.get("type") != "directory": return result
 
 	var children: Dictionary = node.get("children", { })
 	var names: Array = children.keys()
@@ -187,12 +173,9 @@ func listDirectory(path: String = ".") -> Array[String]:
 		if child.get("type") == "directory":
 			var childPath: String = getAbsolutePath(getAbsolutePath(path).path_join(str(name)))
 
-			if isLocked(childPath):
-				icon = ICON_LOCKED
-			elif not str(child.get("password", "")).is_empty():
-				icon = ICON_UNLOCKED
-			else:
-				icon = ICON_PUBLIC
+			if isLocked(childPath): icon = ICON_LOCKED
+			elif not str(child.get("password", "")).is_empty(): icon = ICON_UNLOCKED
+			else: icon = ICON_PUBLIC
 
 		result.append("%s %s" % [icon, name])
 
@@ -203,10 +186,7 @@ func listDirectory(path: String = ".") -> Array[String]:
 
 func readFile(path: String) -> String:
 	var node: Dictionary = getNode(path)
-
-	if node.get("type") != "file":
-		return ""
-
+	if node.get("type") != "file": return ""
 	return str(node.get("content", ""))
 
 # SESSION

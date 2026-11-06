@@ -59,13 +59,13 @@ func registerCommand(command: ConsoleCommand, multi=false) -> bool:
 	return true
 	
 # adds multiple commands at once, provides one bulk signal emit
-func registerCommandsBulk(commands:Array[ConsoleCommand]):
+func registerCommandsBulk(c:Array[ConsoleCommand]):
 	var commandNames:Array = []
-	commands.sort_custom(func(a: ConsoleCommand, b: ConsoleCommand) -> bool:
-												return a.commandName < b.commandName
-												)
-	for command in commands:
-		if registerCommand(command,true): commandNames.append(command.commandName)
+	c.sort_custom(func(a: ConsoleCommand, b: ConsoleCommand) -> bool:
+									return a.commandName < b.commandName
+									)
+	for cmd in c:
+		if registerCommand(cmd,true): commandNames.append(cmd.commandName)
 		
 	if not commandNames.is_empty():  commandsRegistered.emit(", ".join(commandNames))
 

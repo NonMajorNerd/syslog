@@ -116,10 +116,8 @@ func _on_input_submitted(input: String) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if not event is InputEventKey:
-		return
-	if not event.pressed or event.echo:
-		return
+	if not event is InputEventKey: return
+	if not event.pressed or event.echo: return
 
 	# Only navigate command history during normal command input.
 	if txtInput.has_focus() and txtInput.editable and Globals.consoleManager.activePrompt == null:
@@ -147,8 +145,7 @@ func _input(event: InputEvent) -> void:
 
 func addToHistory(command: String) -> void:
 	command = command.strip_edges()
-	if command.is_empty():
-		return
+	if command.is_empty(): return
 
 	# Avoid consecutive duplicate entries.
 	if not commandHistory.is_empty():
@@ -165,13 +162,11 @@ func addToHistory(command: String) -> void:
 
 
 func navigateHistory(direction: int) -> void:
-	if commandHistory.is_empty():
-		return
+	if commandHistory.is_empty(): return
 
 	# Save current input when first entering history.
 	if historyIndex == -1:
-		if direction > 0:
-			return
+		if direction > 0: return
 
 		historyDraft = txtInput.text
 		historyIndex = commandHistory.size() - 1
