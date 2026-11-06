@@ -32,5 +32,5 @@ func loadControllers() -> void:
 	if not get_tree().current_scene.find_child("GameNetworkManager"): print("No Game Network controller")
 	else: 
 		gameNetworkManager =  get_tree().current_scene.find_child("GameNetworkManager")
-		gameNetworkManager.loadHelix()
+		gameNetworkManager.loadNetworkJson("res://components/networks/gameNetworks/HelixDynamics.json")
 	
