@@ -35,26 +35,6 @@ func connectSocket() -> int:
 	
 	return result
 	
-# create the world ID match if it doesnt already exist
-#func createWorld() -> int:
-	#var result:=OK
-	#var createdMatch = await socket.create_match_async(WORLD_ID)
-	#if createdMatch.is_exception():
-		#result = createdMatch.get_exception().status_code as Error
-		#errorMessage = createdMatch.get_exception().message 
-	#
-	#return result
-
-# join the world ID match
-#func joinWorld() -> int:
-	#var result:=OK
-	#var joinedMatch = await socket.join_match_async(WORLD_ID)
-	#if joinedMatch.is_exception():
-		#result = joinedMatch.get_exception().status_code as Error
-		#errorMessage = joinedMatch.get_exception().message 
-	#
-	#return result
-
 func connectToWorld(un:String) -> void:
 	# this should probably get moved to main
 	# gets called by signon command currently
@@ -67,10 +47,6 @@ func connectToWorld(un:String) -> void:
 	
 	#if first time connecting:
 	Globals.consoleManager.registerCommandsBulk([catCommand.new(), ChatCommand.new(), cdCommand.new(), lsCommand.new(), scoutCommand.new()])
-	#Globals.consoleManager.registerCommand(catCommand.new())
-	#Globals.consoleManager.registerCommand(cdCommand.new())
-	#Globals.consoleManager.registerCommand(lsCommand.new())
-	#Globals.consoleManager.registerCommand(scoutCommand.new())
 	
 func connectToChat() -> void:
 	var roomname = "WorldChat"

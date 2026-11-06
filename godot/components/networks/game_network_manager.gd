@@ -22,20 +22,15 @@ func onPathChanged(path:String) -> void: pathChanged.emit(path)
 func registerNetwork(network: GameNetwork) -> void: networks[network.networkName] = network
 func isConnected() -> bool: return activeNetwork != null
 
-func activateNetwork(network: GameNetwork) -> void:
-	if network == null: return
+func getAvailableNetworks() -> Array[String]:
+	var result: Array[String] = []
 
-	network.resetSession()
+	for networkName in networks:
+		result.append(networkName)
 
-	if Globals.playerHandle != null:
-		var savedPaths:Array = Globals.playerHandle.getUnlockedPaths(network.networkID)
-
-		network.restoreUnlocks(savedPaths)
-
-		if not network.directoryUnlocked.is_connected(Globals.playerHandle.onPathUnlocked ):
-			network.directoryUnlocked.connect(Globals.playerHandle.onPathUnlocked)
-
-	activeNetwork = network
+	result.sort()
+	return result
+	
 	
 	
 func connectTo(networkName: String) -> bool:
@@ -55,6 +50,21 @@ func connectTo(networkName: String) -> bool:
 
 	return true
 
+func activateNetwork(network: GameNetwork) -> void:
+	if network == null: return
+
+	network.resetSession()
+
+	if Globals.playerHandle != null:
+		var savedPaths:Array = Globals.playerHandle.getUnlockedPaths(network.networkID)
+
+		network.restoreUnlocks(savedPaths)
+
+		if not network.directoryUnlocked.is_connected(Globals.playerHandle.onPathUnlocked):
+			network.directoryUnlocked.connect(Globals.playerHandle.onPathUnlocked)
+
+	activeNetwork = network
+	
 
 func disconnectFrom() -> void:
 	if activeNetwork == null: return
@@ -76,16 +86,6 @@ func disconnectFrom() -> void:
 	if homeNetwork != null: activateNetwork(homeNetwork)
 		
 
-func getAvailableNetworks() -> Array[String]:
-	var result: Array[String] = []
-
-	for networkName in networks:
-		result.append(networkName)
-
-	result.sort()
-	return result
-	
-	
 func loadHelix() -> void:
 	var HelixDynamics_Filetree:Dictionary = {
 	"type": "directory",

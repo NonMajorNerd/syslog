@@ -81,8 +81,7 @@ func executeLine(line: String) -> void:
 	var commandName: String = parts[0].to_lower()
 	var args: Array[String] = []
 
-	for i in range(1, parts.size()):
-		args.append(parts[i])
+	for i in range(1, parts.size()): args.append(parts[i])
 
 	if not commands.has(commandName):
 		printOutput("Unknown command: " + commandName)
@@ -90,10 +89,8 @@ func executeLine(line: String) -> void:
 
 	activeCommand = commands[commandName]
 	isCommandRunning = true
-
 	inputEnabledChanged.emit(false)
 
-	#var context:= ConsoleContext.new(self)
 	var commandToExecute: ConsoleCommand = activeCommand
 
 	# await for commands that require additional input
