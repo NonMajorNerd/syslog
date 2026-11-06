@@ -1,69 +1,70 @@
+
 class_name GameNetwork
 extends RefCounted
 
-signal currentPathChanged(path:String)
-signal directoryUnlocked(network:GameNetwork, path:String)
+signal currentPathChanged(path: String)
+signal directoryUnlocked(network: GameNetwork, path: String)
 
-var networkName:String
-var networkID:int
-var root:Dictionary
-var currentPath:Array[String] = []:
-	set(v):
-		currentPath = v
+const ICON_FILE := "[~]"
+const ICON_PUBLIC := "[#]"
+const ICON_LOCKED := "[!]"
+const ICON_UNLOCKED := "[+]"
+
+var networkName: String
+var networkID: int
+var root: Dictionary
+
+var currentPath: Array[String] = []:
+	set(value):
+		currentPath = value
 		currentPathChanged.emit(getCurrentPath())
-		
+
 var unlockedPaths: Dictionary = {}
 
-func _init(name: String, ID:int, fileTree: Dictionary) -> void:
+
+func _init(name: String, id: int, fileTree: Dictionary) -> void:
 	networkName = name
-	networkID = ID
+	networkID = id
 	root = fileTree
 
-func getCurrentPath() -> String:
-	if currentPath.is_empty(): return "/"
-	return "/" + "/".join(currentPath)
 
-func getDirectory(path: Array[String] = currentPath) -> Dictionary:
-	var directory := root
-
-	for part in path:
-		if directory.get("type") != "directory": return {}
-		
-		directory = directory.get("children", {}).get(part, {})
-		if directory.is_empty(): return {}
-
-	return directory
+# PATHS
 
 func resolvePath(path: String) -> Array[String]:
-	var result: Array[String] = []
+	var parts: Array[String] = []
 
-	if not path.begins_with("/"): result = currentPath.duplicate()
+	if not path.begins_with("/"): parts = currentPath.duplicate()
 
 	for part in path.split("/", false):
 		match part:
 			"", ".":
 				continue
 			"..":
-				if not result.is_empty():
-					result.pop_back()
+				if not parts.is_empty():
+					parts.pop_back()
 			_:
-				result.append(part)
+				parts.append(part)
 
-	return result
+	return parts
+
 
 func getAbsolutePath(path: String) -> String:
 	var parts: Array[String] = resolvePath(path)
+
 	if parts.is_empty(): return "/"
 	return "/" + "/".join(parts)
 
-func getNode(path: String) -> Dictionary:
-	var parts := resolvePath(path)
 
-	if parts.is_empty(): return root
+func getCurrentPath() -> String:
+	return getAbsolutePath(".")
 
-	var node := root
 
-	for part in parts:
+# FILESYSTEM TRAVERSAL
+
+func _getNodeUnchecked(path: String) -> Dictionary:
+	var node: Dictionary = root
+
+	for part in resolvePath(path):
 		if node.get("type") != "directory": return {}
 		node = node.get("children", {}).get(part, {})
 		if node.is_empty(): return {}
@@ -71,12 +72,22 @@ func getNode(path: String) -> Dictionary:
 	return node
 
 
+func getNode(path: String) -> Dictionary:
+	if isLocked(path): return {}
+	return _getNodeUnchecked(path)
+
+
+func directoryExists(path: String) -> bool:
+	return _getNodeUnchecked(path).get("type") == "directory"
+
+
+# DIRECTORY LOCKS
+
 func isLocked(path: String) -> bool:
-	var parts := resolvePath(path)
-	var node := root
+	var node: Dictionary = root
 	var traversed: Array[String] = []
 
-	for part in parts:
+	for part in resolvePath(path):
 		if node.get("type") != "directory": return false
 
 		node = node.get("children", {}).get(part, {})
@@ -84,28 +95,27 @@ func isLocked(path: String) -> bool:
 
 		traversed.append(part)
 
-		var absolutePath := "/" + "/".join(traversed)
+		var absolutePath: String = "/" + "/".join(traversed)
 		var password: String = node.get("password", "")
 
-		if not password.is_empty() and not unlockedPaths.has(absolutePath):
-			return true
+		if not password.is_empty():
+			if not unlockedPaths.has(absolutePath): return true
 
 	return false
 
+
 func unlock(path: String, password: String) -> bool:
 	var absolutePath: String = getAbsolutePath(path)
-	var node: Dictionary = getNode(absolutePath)
+	var node: Dictionary = _getNodeUnchecked(absolutePath)
 
 	if node.get("type") != "directory": return false
 
 	var parts: Array[String] = resolvePath(absolutePath)
 
-	# Parent directories must already be accessible.
+	# All parent directories must already be accessible.
 	if parts.size() > 1:
-		var parentParts: Array[String] = parts.duplicate()
-		parentParts.pop_back()
-
-		var parentPath: String = "/" + "/".join(parentParts)
+		parts.pop_back()
+		var parentPath: String = "/" + "/".join(parts)
 
 		if isLocked(parentPath): return false
 
@@ -118,32 +128,37 @@ func unlock(path: String, password: String) -> bool:
 	directoryUnlocked.emit(self, absolutePath)
 
 	return true
-	
+
+
 func restoreUnlocks(paths: Array) -> void:
 	unlockedPaths.clear()
 
 	for path in paths:
 		var absolutePath: String = getAbsolutePath(str(path))
-		var node: Dictionary = getNode(absolutePath)
+		var node: Dictionary = _getNodeUnchecked(absolutePath)
 
 		if node.get("type") != "directory": continue
 		if str(node.get("password", "")).is_empty(): continue
 
 		unlockedPaths[absolutePath] = true
-	
+
+
+# DIRECTORY OPERATIONS
+
 func changeDirectory(path: String) -> bool:
-	var node := getNode(path)
+	var node: Dictionary = getNode(path)
+
 	if node.get("type") != "directory": return false
-	if isLocked(path): return false
 
 	currentPath = resolvePath(path)
 	return true
-	
+
+
 func listDirectory(path: String = ".") -> Array[String]:
 	var result: Array[String] = []
 	var node: Dictionary = getNode(path)
 
-	if node.get("type") != "directory" or isLocked(path): return result
+	if node.get("type") != "directory": return result
 
 	var children: Dictionary = node.get("children", {})
 	var names: Array = children.keys()
@@ -151,27 +166,34 @@ func listDirectory(path: String = ".") -> Array[String]:
 
 	for name in names:
 		var child: Dictionary = children[name]
-		var icon: String = "[~]" # file
+		var icon: String = ICON_FILE
 
 		if child.get("type") == "directory":
-			var childPath: String = getAbsolutePath( getAbsolutePath(path).path_join(str(name)) )
+			var childPath: String = getAbsolutePath(
+				getAbsolutePath(path).path_join(str(name))
+			)
 
-			if isLocked(childPath): icon = "[!]" # locked dir
-			elif not str(child.get("password", "")).is_empty(): icon = "[+]" # unlocked dir
-			else: icon = "[#]" # public dir
+			if isLocked(childPath): icon = ICON_LOCKED
+			elif not str(child.get("password", "")).is_empty(): icon = ICON_UNLOCKED
+			else: icon = ICON_PUBLIC
 
 		result.append("%s %s" % [icon, name])
 
 	return result
-	
+
+
+# FILE OPERATIONS
+
 func readFile(path: String) -> String:
-	if isLocked(path): return ""
+	var node: Dictionary = getNode(path)
 
-	var node := getNode(path)
 	if node.get("type") != "file": return ""
+	
+	return str(node.get("content", ""))
 
-	return node.get("content", "")
+
+# SESSION
 
 func resetSession() -> void:
-	currentPath = [] #.clear() does not trigger setter
+	currentPath = []
 	unlockedPaths.clear()

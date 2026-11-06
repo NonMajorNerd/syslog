@@ -4,7 +4,7 @@ extends ConsoleCommand
 func _init() -> void:
 	commandName = "cd"
 	aliases = []
-	category = "General"
+	category = "Filesystem"
 	description = "Change the working directory."
 	usage = "cd [directory]"
 	isHidden = false # used to hide internal commands from standard help
@@ -19,8 +19,7 @@ func execute(args: Array[String]) -> void:
 	var path: String = " ".join(args).strip_edges()
 	if path.is_empty(): path = "/"
 
-	var node: Dictionary = network.getNode(path)
-	if node.get("type") != "directory":
+	if not network.directoryExists(path):
 		Globals.consoleManager.printOutput("Directory not found.", Globals.Colors["CONSOLE"]["FONT_FAILURE"])
 		return
 

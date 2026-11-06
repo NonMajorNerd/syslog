@@ -32,10 +32,10 @@ func onNetworkConnected(network:GameNetwork) -> void:
 	# create base array for storing unlocked paths
 	if not networks.has(network.networkID): networks[network.networkID] = []
 
-func onPathUnlocked(network:GameNetwork, path:String) -> void:
+func onPathUnlocked(network: GameNetwork, path: String) -> void:
 	if network == null or path.is_empty(): return
-	if not networks.has(network.networkID): networks[network.networkID] = [path]
-	else: networks[network.networkID].append(path)
+	if not networks.has(network.networkID): networks[network.networkID] = []
+	if not networks[network.networkID].has(path): networks[network.networkID].append(path)
 	
 func getUnlockedPaths(networkID: int) -> Array:
 	return networks.get(networkID, []).duplicate()

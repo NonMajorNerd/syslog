@@ -4,7 +4,7 @@ extends ConsoleCommand
 func _init() -> void:
 	commandName = "cat"
 	aliases = []
-	category = "General"
+	category = "Filesystem"
 	description = "Print the contents of a file to the terminal."
 	usage = "cat [filename]"
 	isHidden = false # used to hide internal commands from standard help

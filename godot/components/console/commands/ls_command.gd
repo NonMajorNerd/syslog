@@ -6,7 +6,7 @@ extends ConsoleCommand
 func _init() -> void:
 	commandName = "ls"
 	aliases = []
-	category = "General"
+	category = "Filesystem"
 	description = "List the contents of the current directory."
 	usage = "ls"
 	isHidden = false # used to hide internal commands from standard help
