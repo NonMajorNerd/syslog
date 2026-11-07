@@ -81,6 +81,32 @@ script = ExtResource("2_xil4p")
 layout_mode = 2
 theme_override_constants/separation = 0
 
+[node name="Sidebar" type="PanelContainer" parent="screen/Console/HBoxContainer" unique_id=939007627]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="screen/Console/HBoxContainer/Sidebar" unique_id=1768331282]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1815954071]
+layout_mode = 2
+bbcode_enabled = true
+text = "CREDITS: 0000
+INTEL: 0000"
+fit_content = true
+autowrap_mode = 0
+
+[node name="rtlWorldChat" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1275290456]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+vertical_alignment = 2
+
 [node name="PanelContainer" type="PanelContainer" parent="screen/Console/HBoxContainer" unique_id=2056450015]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -99,19 +125,17 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="rtlTerminal" type="RichTextLabel" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1459663030]
+custom_minimum_size = Vector2(0, 515)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 scroll_active = false
-scroll_following = true
-scroll_following_visible_characters = true
 vertical_alignment = 2
 
 [node name="inputline" type="PanelContainer" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer" unique_id=26769978]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_jyhfs")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline" unique_id=1237682022]
@@ -147,22 +171,3 @@ middle_mouse_paste_enabled = false
 drag_and_drop_selection_enabled = false
 flat = true
 caret_blink = true
-caret_force_displayed = true
-
-[node name="Sidebar" type="PanelContainer" parent="screen/Console/HBoxContainer" unique_id=939007627]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="screen/Console/HBoxContainer/Sidebar" unique_id=1768331282]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-
-[node name="rtlWorldChat" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1275290456]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 16
-bbcode_enabled = true
-scroll_active = false
-scroll_following = true
-scroll_following_visible_characters = true
-vertical_alignment = 2

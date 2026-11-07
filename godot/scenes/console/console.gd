@@ -60,12 +60,9 @@ func _onCommandsRegistered(cmds: String):
 
 
 func _on_chat_printed(msg: String, clr: Color) -> void:
-	if not msg:
-		return
-	if msg == "CODE_CLEAR":
-		rtlChat.clear() # sent by no command
-	else:
-		rtlChat.append_text("[color=#%s]%s[/color]\n" % [clr.to_html(false), msg])
+	if not msg: return
+	if msg == "CODE_CLEAR": rtlChat.clear() # sent by no command
+	else: rtlChat.append_text("[color=#%s]%s[/color]\n" % [clr.to_html(false), msg])
 
 
 func _on_output_printed(msg: String, clr: Color) -> void:
@@ -78,10 +75,8 @@ func _on_output_printed(msg: String, clr: Color) -> void:
 
 
 func _on_prompt_changed(promptText: String, secret: bool) -> void:
-	if promptText == "":
-		clearPrompt()
-	else:
-		rtlPrompt.text = promptText
+	if promptText == "": clearPrompt()
+	else: rtlPrompt.text = promptText
 	txtInput.secret = secret
 
 
