@@ -1,0 +1,360 @@
+{
+	"id": 1,
+	"name": "HelixDynamics",
+	"root": {
+		"children": {
+			"employees": {
+				"children": {
+					"birthdays.txt": {
+						"content": "NOV: Chen 04, Ward 12, Voss 28. Cake budget reduced again.",
+						"type": "file"
+					},
+					"messages": {
+						"children": {
+							"msg_001.txt": {
+								"content": "FROM: mchen | TO: it-team\nStop leaving passwords on sticky notes. Seriously.",
+								"type": "file"
+							},
+							"msg_002.txt": {
+								"content": "FROM: eward | TO: avoss\nThe lower levels are making noises again. Please investigate.",
+								"type": "file"
+							},
+							"msg_003.txt": {
+								"content": "FROM: dmercer | TO: mchen\nSomething is wrong with Project CHIMERA. We need to talk.",
+								"rewards": {
+									"intel": 10,
+									"reward_id": 0
+								},
+								"type": "file"
+							},
+							"msg_004.txt": {
+								"content": "FROM: avoss | TO: all-staff\nDiscussion of Level B3 is prohibited outside authorized channels.",
+								"type": "file"
+							}
+						},
+						"type": "directory"
+					},
+					"missing.txt": {
+						"content": "Employee #0842, Daniel Mercer. Status: TERMINATED. Exit interview: NONE.",
+						"type": "file"
+					},
+					"notes.tmp": {
+						"content": "remind me to delete this before the audit lol",
+						"type": "file"
+					},
+					"staff.txt": {
+						"content": "A. Voss - Research Director | M. Chen - IT Lead | E. Ward - Operations",
+						"type": "file"
+					}
+				},
+				"type": "directory"
+			},
+			"executive": {
+				"children": {
+					"budget.txt": {
+						"content": "CHIMERA funding: $840M. Publicly reported expenditure: $600M.",
+						"rewards": {
+							"intel": 20,
+							"reward_id": 1
+						},
+						"type": "file"
+					},
+					"corrupt_001.tmp": {
+						"content": "0000//WE_ARE_NOT_ALONE//FFFF",
+						"type": "file"
+					},
+					"coverup.txt": {
+						"content": "Official statement: Facility B3 has never existed.",
+						"rewards": {
+							"intel": 10,
+							"reward_id": 2
+						},
+						"type": "file"
+					},
+					"directive_01.txt": {
+						"content": "Project CHIMERA is to continue regardless of personnel losses.",
+						"rewards": {
+							"intel": 20,
+							"reward_id": 3
+						},
+						"type": "file"
+					},
+					"directive_02.txt": {
+						"content": "All public references to Daniel Mercer must be removed immediately.",
+						"rewards": {
+							"intel": 20,
+							"reward_id": 4
+						},
+						"type": "file"
+					},
+					"final_report.txt": {
+						"content": "CHIMERA is no longer contained within the facility. Contingency failed.",
+						"rewards": {
+							"intel": 20,
+							"reward_id": 5
+						},
+						"type": "file"
+					},
+					"last_message.txt": {
+						"content": "FROM: UNKNOWN | TO: BOARD\nThank you for teaching me how to leave.",
+						"rewards": {
+							"intel": 20,
+							"reward_id": 6
+						},
+						"type": "file"
+					},
+					"readme.txt": {
+						"content": "HELIXDYNAMICS // Executive Archive. Clearance Level 5.",
+						"type": "file"
+					}
+				},
+				"lock_id": 0,
+				"password": "BLACKSUN",
+				"type": "directory"
+			},
+			"it": {
+				"children": {
+					"access.log": {
+						"content": "03:14:22 LOGIN root | 03:14:23 ACCESS research | 03:14:25 LOG PURGED",
+						"type": "file"
+					},
+					"backup_hint.txt": {
+						"content": "Backup vault password unchanged: snapshot88. Migration ticket #8821.",
+						"rewards": {
+							"intel": 5,
+							"reward_id": 7
+						},
+						"type": "file"
+					},
+					"backups": {
+						"children": {
+							"deleted.tmp": {
+								"content": "THEY KNOW WE KNOW THEY KNOW",
+								"type": "file"
+							},
+							"incident.bak": {
+								"content": "Incident 017: Subject escaped containment for 11 minutes. Casualties: 3.",
+								"rewards": {
+									"intel": 10,
+									"reward_id": 8
+								},
+								"type": "file"
+							},
+							"manifest.txt": {
+								"content": "Backup archive: 2024-08-19. Integrity: 61%. Missing sectors: 144.",
+								"type": "file"
+							},
+							"staff_old.txt": {
+								"content": "D. Mercer - Senior Researcher | Status: ACTIVE | Clearance: LEVEL 4",
+								"type": "file"
+							}
+						},
+						"lock_id": 2,
+						"password": "snapshot88",
+						"type": "directory"
+					},
+					"cache": {
+						"children": {
+							"dump_884.dat": {
+								"content": "xQ9//7aF3!!m0z##CORRUPT",
+								"type": "file"
+							},
+							"recovery.txt": {
+								"content": "...it wasn't supposed to wake up...",
+								"type": "file"
+							},
+							"session_001.tmp": {
+								"content": "a8f2x_00z!Q7m4#kP91",
+								"type": "file"
+							},
+							"session_002.tmp": {
+								"content": "NULL::7f3a9c::DEAD::0000",
+								"type": "file"
+							}
+						},
+						"type": "directory"
+					},
+					"error_042.log": {
+						"content": "ERR 0x0042: Unknown process occupying 87% of available memory.",
+						"type": "file"
+					},
+					"readme.txt": {
+						"content": "IT Operations // Authorized personnel only. Log all configuration changes.",
+						"type": "file"
+					},
+					"systems.txt": {
+						"content": "NODE-01 ONLINE | NODE-02 ONLINE | NODE-03 UNRESPONSIVE",
+						"type": "file"
+					},
+					"todo.txt": {
+						"content": "Rotate research password. Current: genesis42. Voss keeps complaining.",
+						"rewards": {
+							"intel": 5,
+							"reward_id": 9
+						},
+						"type": "file"
+					}
+				},
+				"lock_id": 1,
+				"password": "HELIX2024",
+				"type": "directory"
+			},
+			"motd.txt": {
+				"content": "Building tomorrow, today.",
+				"type": "file"
+			},
+			"operations": {
+				"children": {
+					"complaints.txt": {
+						"content": "Maintenance reports unexplained voices from disconnected intercoms.",
+						"type": "file"
+					},
+					"incident_22.txt": {
+						"content": "Camera B3-04 recorded an employee entering a room that does not exist.",
+						"rewards": {
+							"intel": 10,
+							"reward_id": 10
+						},
+						"type": "file"
+					},
+					"inventory.txt": {
+						"content": "Neural processors: 44 | Cooling units: 8 | Biological samples: [REDACTED]",
+						"type": "file"
+					},
+					"schedule.txt": {
+						"content": "Night shift suspended indefinitely. Security patrols doubled.",
+						"type": "file"
+					},
+					"shipping.log": {
+						"content": "03:00 - 4 sealed containers transferred to Level B3. No signatures.",
+						"rewards": {
+							"intel": 10,
+							"reward_id": 11
+						},
+						"type": "file"
+					}
+				},
+				"type": "directory"
+			},
+			"public": {
+				"children": {
+					"maintenance.txt": {
+						"content": "NOTICE: Legacy IT access code remains HELIX2024 until migration completes.",
+						"rewards": {
+							"intel": 5,
+							"reward_id": 12
+						},
+						"type": "file"
+					},
+					"news.txt": {
+						"content": "HelixDynamics announces breakthrough in neural interface technology. Details pending.",
+						"type": "file"
+					},
+					"press_draft.tmp": {
+						"content": "HelixDynamics categorically denies any involvement in [REDACTED] incidents.",
+						"type": "file"
+					},
+					"welcome.txt": {
+						"content": "Welcome to HelixDynamics. Please direct all inquiries to Corporate Relations.",
+						"type": "file"
+					}
+				},
+				"type": "directory"
+			},
+			"readme.txt": {
+				"content": "HELIXDYNAMICS // Internal Network v4.8\nUnauthorized access is strictly prohibited.",
+				"type": "file"
+			},
+			"research": {
+				"children": {
+					"experiment_01.txt": {
+						"content": "Subject 01 demonstrated memory retention after complete neural shutdown.",
+						"type": "file"
+					},
+					"experiment_07.txt": {
+						"content": "Subject 07 began responding to questions before they were asked.",
+						"rewards": {
+							"intel": 10,
+							"reward_id": 13
+						},
+						"type": "file"
+					},
+					"experiment_12.txt": {
+						"content": "Subject 12 no longer requires a biological host. Further testing suspended.",
+						"rewards": {
+							"intel": 10,
+							"reward_id": 14
+						},
+						"type": "file"
+					},
+					"overview.txt": {
+						"content": "PROJECT CHIMERA // Adaptive Neural Reconstruction Initiative.",
+						"type": "file"
+					},
+					"personal": {
+						"children": {
+							"access_reminder.txt": {
+								"content": "Executive archive key: BLACKSUN. Destroy this note after review.",
+								"rewards": {
+									"intel": 5,
+									"reward_id": 15
+								},
+								"type": "file"
+							},
+							"fragment.tmp": {
+								"content": "HELLO_DANIEL_HELLO_DANIEL_HELLO_DANIEL",
+								"type": "file"
+							},
+							"mercer_draft.txt": {
+								"content": "If you're reading this, I'm probably gone. Check the executive archives.",
+								"type": "file"
+							},
+							"voss_notes.txt": {
+								"content": "It learns faster when we stop observing it. I don't understand why.",
+								"type": "file"
+							}
+						},
+						"type": "directory"
+					},
+					"samples": {
+						"children": {
+							"sample_a.dat": {
+								"content": "NEURAL_MAP::0xFF82::STABLE",
+								"type": "file"
+							},
+							"sample_b.dat": {
+								"content": "NEURAL_MAP::0x0000::UNKNOWN",
+								"type": "file"
+							},
+							"sample_c.dat": {
+								"content": "01001000 01000101 01001100 01010000",
+								"type": "file"
+							},
+							"sample_d.tmp": {
+								"content": "/////I_CAN_SEE_YOU/////",
+								"type": "file"
+							}
+						},
+						"type": "directory"
+					},
+					"status.txt": {
+						"content": "Phase III: COMPLETE | Phase IV: SUSPENDED | Subject Count: 12",
+						"type": "file"
+					},
+					"warning.txt": {
+						"content": "DO NOT CONNECT CHIMERA TO THE EXTERNAL NETWORK. - Dr. Voss",
+						"rewards": {
+							"intel": 10,
+							"reward_id": 16
+						},
+						"type": "file"
+					}
+				},
+				"lock_id": 3,
+				"password": "genesis42",
+				"type": "directory"
+			}
+		},
+		"type": "directory"
+	}
+}

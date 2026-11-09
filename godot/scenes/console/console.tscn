@@ -1,0 +1,252 @@
+[gd_scene format=3 uid="uid://djm7yy78m6v8x"]
+
+[ext_resource type="Script" uid="uid://cqqym0aj3cjp0" path="res://scenes/console/console.gd" id="1_gf67r"]
+[ext_resource type="Shader" uid="uid://nbfvuh3uajhi" path="res://scenes/console/crt.gdshader" id="1_t6k7n"]
+[ext_resource type="Script" uid="uid://dhld8t8xj6bui" path="res://components/console/console_manager.gd" id="2_xil4p"]
+[ext_resource type="Texture2D" uid="uid://n5e5bmeqrnax" path="res://_assets/MTN.png" id="4_m5dyh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqxiu"]
+shader = ExtResource("1_t6k7n")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.0610000028975
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.0
+shader_parameter/resolution = Vector2(1000, 1000)
+shader_parameter/pixelate = false
+shader_parameter/roll = true
+shader_parameter/roll_speed = 1.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.0
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.0
+shader_parameter/vignette_opacity = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqxiu"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uqctj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkv2x"]
+bg_color = Color(0.039215688, 0.05490196, 0.039215688, 0.92941177)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dqxiu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jyhfs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xil4p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t6k7n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_buc2e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5dyh"]
+content_margin_left = 4.0
+content_margin_top = 8.0
+content_margin_right = 4.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e4ksa"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0.15294118)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g2xtj"]
+content_margin_left = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1442416102]
+layer = 3
+script = ExtResource("1_gf67r")
+
+[node name="shader" type="CanvasLayer" parent="." unique_id=1566054233]
+
+[node name="PanelContainer" type="PanelContainer" parent="shader" unique_id=613384451]
+material = SubResource("ShaderMaterial_dqxiu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dqxiu")
+
+[node name="screen" type="CanvasLayer" parent="." unique_id=2053035669]
+
+[node name="Console" type="PanelContainer" parent="screen" unique_id=457722318]
+material = SubResource("CanvasItemMaterial_uqctj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_jkv2x")
+
+[node name="ConsoleManager" type="Node" parent="screen/Console" unique_id=243551061]
+script = ExtResource("2_xil4p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="screen/Console" unique_id=204917232]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="screen/Console/HBoxContainer" unique_id=2056450015]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_dqxiu")
+
+[node name="TextureRect" type="TextureRect" parent="screen/Console/HBoxContainer/PanelContainer" unique_id=448670516]
+modulate = Color(1, 1, 1, 0.019607844)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_m5dyh")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="screen/Console/HBoxContainer/PanelContainer" unique_id=273611266]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="rtlTerminal" type="RichTextLabel" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1459663030]
+custom_minimum_size = Vector2(0, 515)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_following = true
+scroll_following_visible_characters = true
+vertical_alignment = 2
+
+[node name="inputline" type="PanelContainer" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer" unique_id=26769978]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jyhfs")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline" unique_id=1237682022]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="rtlPrompt" type="RichTextLabel" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer" unique_id=1404229296]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/default_color = Color(0.9607843, 0.6627451, 0, 1)
+theme_override_font_sizes/normal_font_size = 16
+text = "unauth@local:/$"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="txtInput" type="LineEdit" parent="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer" unique_id=2125126208]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_next = NodePath("../../../../../Sidebar/VBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/txtBody")
+focus_previous = NodePath("../../../../../Sidebar/VBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/txtBody")
+theme_override_colors/font_color = Color(0.9607843, 0.6627451, 0, 1)
+theme_override_colors/caret_color = Color(0.9607843, 0.6627451, 0, 1)
+theme_override_constants/caret_width = 11
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xil4p")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_t6k7n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_buc2e")
+editable = false
+keep_editing_on_text_submit = true
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
+flat = true
+caret_blink = true
+
+[node name="Sidebar" type="PanelContainer" parent="screen/Console/HBoxContainer" unique_id=939007627]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_m5dyh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="screen/Console/HBoxContainer/Sidebar" unique_id=1768331282]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="rtlResources" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1815954071]
+layout_mode = 2
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "CREDITS:	0
+INTEL:		0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1973981669]
+visible = false
+custom_minimum_size = Vector2(250, 265)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_e4ksa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer" unique_id=788300345]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1508465379]
+layout_mode = 2
+
+[node name="rtlFile" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/VBoxContainer/PanelContainer" unique_id=348098099]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "remote@homenet: ... notes.txt"
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/VBoxContainer" unique_id=2145201298]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_g2xtj")
+
+[node name="txtBody" type="TextEdit" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/VBoxContainer/PanelContainer2" unique_id=850300673]
+layout_mode = 2
+size_flags_vertical = 3
+focus_next = NodePath("../../../../../../PanelContainer/VBoxContainer/inputline/HBoxContainer/txtInput")
+focus_previous = NodePath("../../../../../../PanelContainer/VBoxContainer/inputline/HBoxContainer/txtInput")
+theme_override_font_sizes/font_size = 12
+text = "This document lives on your home net.
+It is always available for remote editing."
+wrap_mode = 1
+tab_input_mode = false
+
+[node name="rtlWorldChat" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1275290456]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+vertical_alignment = 2
+
+[connection signal="focus_exited" from="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/txtBody" to="." method="onNotesFocusExited"]

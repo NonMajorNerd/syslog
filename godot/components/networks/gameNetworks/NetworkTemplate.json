@@ -1,0 +1,21 @@
+{
+	"id": 99,
+	"name": "NetworkTemplate",
+	"root": {
+		"children": {
+			"best_practices.txt": {
+				"content": "The editor does not manage Lock IDs or Reward IDs.\nYou need to add them manually, and ensure that\nthat neither have duplicate IDs within the network.",
+				"type": "file"
+			},
+			"motd.txt": {
+				"content": "If a /motd.txt file exists it will be displayed\\n\nsecond when the user connects to the network.",
+				"type": "file"
+			},
+			"readme.txt": {
+				"content": "If a /readme.txt file exists it will be displayed\\n\nfirst when the user connects to the network.",
+				"type": "file"
+			}
+		},
+		"type": "directory"
+	}
+}
