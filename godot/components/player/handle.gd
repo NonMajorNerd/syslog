@@ -3,7 +3,7 @@ extends Node
 
 # Resource setters signal the UI
 signal creditsChanged
-signal heatChanged
+#signal heatChanged
 signal intelChanged
 signal repChanged
 signal knowledgeChanged
@@ -14,12 +14,24 @@ var nickName: String = ""
 var rig: Rig = Rig.new()
 var knowledge: PlayerKnowledge
 
-# /sys data. each network also retains its lock/reward IDs
+# Per-network data and progression: visits, heat, unlocked lock IDs and one-time reward IDs.
+var networks: Dictionary[int, Dictionary] = {}
+  #{ 0: {
+        #"name": "homenet",
+        #"known": true,
+        #"visits": 0,
+        #"heat": 0,
+        #"locksOpened": [],
+        #"rewardsCollected": [] 
+    #}
+#}
+
+# /sys data
 var knownContacts: Dictionary[String, String] = {}
 var readFiles: Dictionary[String, bool] = {}
 var activityLog: Array[String] = []
 
-const MAX_LOG_ENTRIES: int = 100
+#const MAX_LOG_ENTRIES: int = 100
 
 var rep: float = 0.0:
   set(val):
@@ -33,22 +45,10 @@ var intel: float = 0.0:
   set(val):
     intel = val
     intelChanged.emit()
-var heat: float = 0.0:
-  set(val):
-    heat = val
-    heatChanged.emit()
-
-# Per-network progression: unlocked lock IDs and one-time reward IDs.
-var networks: Dictionary[int, Dictionary] = {
-  0: {
-    "locksOpened": [],
-    "rewardsCollected": [],
-    "known": true,
-    "name": "homenet",
-    "visits": 0
-  }
-}
-
+#var heat: float = 0.0:
+  #set(val):
+    #heat = val
+    #heatChanged.emit()
 
 func loadHandle(username: String) -> void:
   realName = username
@@ -58,6 +58,8 @@ func loadHandle(username: String) -> void:
     knowledge = PlayerKnowledge.new()
     knowledge.setup(self)
 
+  discoverNetwork(rig.homeNet)
+  
   if not Globals.gameNetworkManager.networkConnected.is_connected(onNetworkConnected):
     Globals.gameNetworkManager.networkConnected.connect(onNetworkConnected)
 
@@ -67,11 +69,12 @@ func ensureNetworkProgress(networkID: int) -> void:
 
   # A progress entry does not mean the player has discovered the network.
   networks[networkID] = {
-    "locksOpened": [],
-    "rewardsCollected": [],
-    "known": false,
     "name": "",
-    "visits": 0
+    "known": false,
+    "visits": 0,
+    "heat": 0,
+    "locksOpened": [],
+    "rewardsCollected": []
   }
 
 
@@ -116,7 +119,7 @@ func recordFileRead(network: GameNetwork, path: String) -> void:
 
 
 func addLog(message: String) -> void:
-  activityLog.append("[%s] %s" % [Time.get_datetime_string_from_system(), message])
+  activityLog.append("[%s] %s" % [Time.get_datetime_string_from_system(true), message])
   #if activityLog.size() > MAX_LOG_ENTRIES: activityLog.pop_front()
   knowledgeChanged.emit() # signal PlayerKnowledge to update /sys/ entries
 

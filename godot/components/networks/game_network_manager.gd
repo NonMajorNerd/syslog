@@ -147,6 +147,7 @@ func loadNetworkJson(path: String) -> void:
   var network: GameNetwork = GameNetwork.new(
     str(parsed["name"]),
     parsed["id"],
+    0,
     parsed["root"]
   )
 

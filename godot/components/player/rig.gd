@@ -8,6 +8,7 @@ var disk: int = 1
 
 var threads: Dictionary = {1: {}}
 
+# This local network becomes active after successful sign-on.
 var homeFiletree: Dictionary = {
   "type": "directory",
   "children": {
@@ -80,5 +81,4 @@ var homeFiletree: Dictionary = {
     }
 }
 
-# This local network becomes active after successful sign-on.
-var homeNet: GameNetwork = GameNetwork.new("homenet", 0, homeFiletree)
+var homeNet: GameNetwork = GameNetwork.new("homenet", 0, 0, homeFiletree)

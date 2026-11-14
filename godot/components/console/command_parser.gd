@@ -2,7 +2,6 @@ class_name CommandParser
 extends RefCounted
 
 # Tokens preserve the span in the original input for safe completion replacement.
-# Quotes group words; escape syntax and long options are intentionally unsupported.
 # Include token positions so autocomplete can replace active input
 static func tokenize(line: String, allowIncomplete: bool = false) -> Dictionary:
   var tokens: Array[Dictionary] = []

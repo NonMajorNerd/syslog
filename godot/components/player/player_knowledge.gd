@@ -14,7 +14,7 @@ func setup(handle: Handle) -> void:
   playerHandle.creditsChanged.connect(refreshStats)
   playerHandle.intelChanged.connect(refreshStats)
   playerHandle.repChanged.connect(refreshStats)
-  playerHandle.heatChanged.connect(refreshStats)
+  #playerHandle.heatChanged.connect(refreshStats)
 
   refreshFiles()
 
@@ -47,12 +47,13 @@ func refreshNetworks() -> void:
   var lines: Array[String] = ["KNOWN NETWORKS", ""]
   var ids: Array[int] = []
   for networkID in playerHandle.networks:
+    if networkID == 0: continue
     if playerHandle.networks[networkID].get("known", false): ids.append(networkID)
   ids.sort()
 
   for networkID in ids:
     var info: Dictionary = playerHandle.networks[networkID]
-    lines.append("%s  |  Visits: %d" % [info["name"], int(info.get("visits", 0))])
+    lines.append("%s\t\t\t\t\tVisits: %d" % [info["name"], int(info.get("visits", 0))])
 
   updateFile("networks.txt", "\n".join(lines))
 
@@ -68,7 +69,6 @@ func refreshStats() -> void:
     "Credits: %s" % playerHandle.credits,
     "Intel: %s" % playerHandle.intel,
     "Rep: %s" % playerHandle.rep,
-    "Heat: %s" % playerHandle.heat,
     "",
     "CPU: %0.0d" % playerHandle.rig.cpu,
     "RAM: %0.0d" % playerHandle.rig.ram,

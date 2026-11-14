@@ -1,8 +1,8 @@
 class_name ServerManager
 extends Node
 
-#const KEY:String = "getfucked"
-#var client:NakamaClient = Nakama.create_client(KEY, "fuckyoudie", 7350, "http")
+const KEY:String = "getfucked"
+var client:NakamaClient = Nakama.create_client(KEY, "fuckyoudie", 7350, "http")
 
 var session: NakamaSession
 var socket: NakamaSocket

@@ -1,5 +1,6 @@
 class_name GameNetwork
-extends RefCounted
+extends Resource
+#extends RefCounted
 
 signal currentPathChanged(path: String) # notifies NetworkManager, which forwards it to the UI.
 signal directoryUnlocked(network: GameNetwork, lockID: int) # NetworkManager connects this to Handle
@@ -11,6 +12,7 @@ const ICON_UNLOCKED := "[+]"
 
 var networkName: String
 var networkID: int
+var heat: float
 var root: Dictionary
 
 var currentPath: Array[String] = []:
@@ -25,9 +27,10 @@ var definedLockIDs: Dictionary[int, bool] = {}
 var invalidLockIDs: Dictionary[int, bool] = {}
 
 
-func _init(name: String, id: int, fileTree: Dictionary) -> void:
+func _init(name: String, id: int, h: float, fileTree: Dictionary) -> void:
   networkName = name
   networkID = id
+  heat = h
   root = fileTree
   _indexLocks(root, "/")
 

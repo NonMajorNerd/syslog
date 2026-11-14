@@ -109,10 +109,8 @@ func executeLine(line: String) -> void:
 
 func submitInput(value: String) -> void:
   # Enter goes to the pending prompt when one exists, not executeLine().
-  if activePrompt != null:
-    inputSubmitted.emit(value)
-  else:
-    executeLine(value)
+  if activePrompt != null: inputSubmitted.emit(value)
+  else: executeLine(value)
 
 func requestInput(promptText: String, validator: Callable = Callable(), secret: bool = false) -> Variant:
   while true:

@@ -17,12 +17,12 @@ static func paths(partial: String, directoriesOnly: bool = false, filesOnly: boo
 
   for entry in node.get("children", {}):
     var child: Dictionary = node["children"][entry]
-
     var isDirectory: bool = child.get("type") == "directory"
     if directoriesOnly and not isDirectory: continue
     if filesOnly and isDirectory: continue
 
-    if str(entry).begins_with(stem): result.append(parent + str(entry) + ("/" if isDirectory else ""))
+    if str(entry).begins_with(stem):
+      result.append(parent + str(entry) + ("/" if isDirectory else ""))
 
   result.sort()
   return result
