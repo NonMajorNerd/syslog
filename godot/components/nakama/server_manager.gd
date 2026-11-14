@@ -1,6 +1,9 @@
 class_name ServerManager
 extends Node
 
+enum ReadPermissions { NO_READ, OWNER_READ, PUBLIC_READ }
+enum WritePermissions { NO_WRITE, OWNER_WRITE }
+
 const KEY:String = "getfucked"
 var client:NakamaClient = Nakama.create_client(KEY, "fuckyoudie", 7350, "http")
 
@@ -61,3 +64,25 @@ func connectToChat() -> void:
 
 func onChannelMessage(message: NakamaAPI.ApiChannelMessage) -> void:
   Globals.consoleManager.printChat("%s: %s" % [message.username, JSON.parse_string(message.content)["message"]])
+
+func writeHandlesAsync(handles: Array = []) -> void:
+  await client.write_storage_objects_async(session, 
+      [ NakamaWriteStorageObject.new("player_data", "handles",
+          ReadPermissions.OWNER_READ, WritePermissions.OWNER_WRITE,
+          JSON.stringify({handles = handles}), "" )
+      ] 
+    )
+
+func readHandlesAsync() -> Array:
+  var handles: Array = []
+  
+  var storageObjects: NakamaAPI.ApiStorageObjects = await client.read_storage_objects_async(session,
+    [ NakamaStorageObjectId.new("player_data", "handles", session.user_id)]
+  )
+  
+  if storageObjects.objects:
+    var decoded: Array = JSON.parse_string(storageObjects.objects[0].value).result.handles #["result"]["handles"]
+    return decoded
+  
+  return []
+  

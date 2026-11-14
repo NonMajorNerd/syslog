@@ -8,9 +8,8 @@ extends CanvasLayer
 @onready var rtlStatusCenter: RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/statusbar/HBoxContainer/rtlStatusCenter
 @onready var rtlStatusRight: RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/statusbar/HBoxContainer/rtlStatusRight
 
-@onready var rtlChat: RichTextLabel = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer4/rtlWorldChat
+@onready var rtlChat: RichTextLabel = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/rtlWorldChat
 
-@onready var rtlResources: RichTextLabel = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/rtlResources
 @onready var txtBody: TextEdit = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/txtBody
 
 # History belongs to the view; interactive prompt answers are excluded.
@@ -30,7 +29,6 @@ func _ready() -> void:
   txtInput.grab_focus()
 
 func updateCreditsIntelRep() -> void:
-  rtlResources.text = "CREDITS:\t%4.0d\nINTEL:\t\t%4.0d" % [Globals.playerHandle.credits, Globals.playerHandle.intel]
   rtlStatusLeft.text = "c%0.0d | i%0.0d" % [Globals.playerHandle.credits, Globals.playerHandle.intel]
 
 # main.gd calls this after Globals.loadControllers() has found the managers.

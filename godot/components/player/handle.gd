@@ -14,6 +14,11 @@ var nickName: String = ""
 var rig: Rig = Rig.new()
 var knowledge: PlayerKnowledge
 
+# /sys data
+var knownContacts: Dictionary[String, String] = {}
+var readFiles: Dictionary[String, bool] = {}
+var activityLog: Array[String] = []
+
 # Per-network data and progression: visits, heat, unlocked lock IDs and one-time reward IDs.
 var networks: Dictionary[int, Dictionary] = {}
   #{ 0: {
@@ -25,11 +30,6 @@ var networks: Dictionary[int, Dictionary] = {}
         #"rewardsCollected": [] 
     #}
 #}
-
-# /sys data
-var knownContacts: Dictionary[String, String] = {}
-var readFiles: Dictionary[String, bool] = {}
-var activityLog: Array[String] = []
 
 #const MAX_LOG_ENTRIES: int = 100
 

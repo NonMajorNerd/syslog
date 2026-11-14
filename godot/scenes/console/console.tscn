@@ -66,15 +66,15 @@ content_margin_bottom = 0.0
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5utkn"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08erg"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 1
-border_width_top = 1
 border_width_right = 1
+border_width_bottom = 1
 border_color = Color(0.64705884, 0.6784314, 0.79607844, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e4ksa"]
@@ -93,29 +93,6 @@ corner_detail = 5
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_bottom = 1.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pplu6"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.64705884, 0.6784314, 0.79607844, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08erg"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.64705884, 0.6784314, 0.79607844, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1442416102]
 layer = 3
@@ -265,30 +242,45 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="Sidebar" type="PanelContainer" parent="screen/Console/HBoxContainer" unique_id=939007627]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_m5dyh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="screen/Console/HBoxContainer/Sidebar" unique_id=1768331282]
-custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=418679217]
-visible = false
+[node name="btnSave" type="Button" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1767410962]
+custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5utkn")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 12
+text = "SAVE"
 
-[node name="rtlResources" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer" unique_id=1815954071]
+[node name="btnLoad" type="Button" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1912843161]
+custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 12
+text = "LOAD"
+
+[node name="PanelContainer" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1222625164]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_08erg")
+
+[node name="rtlWorldChat" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer" unique_id=1215622013]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "CREDITS:	0
-INTEL:		0"
-fit_content = true
-autowrap_mode = 0
-vertical_alignment = 1
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+vertical_alignment = 2
 
 [node name="PanelContainer3" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1973981669]
 visible = false
@@ -329,45 +321,6 @@ text = "This document lives on your home net.
 It is always available for remote editing."
 wrap_mode = 1
 tab_input_mode = false
-
-[node name="PanelContainer2" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=327540562]
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_pplu6")
-
-[node name="rtlNetInfo" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer2" unique_id=1275290456]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 16
-bbcode_enabled = true
-text = "Network: 	Homenet
-Heat:		0
-
-CPU:		0
-RAM:		0
-NET:		0
-DISK:		0
-"
-scroll_active = false
-scroll_following = true
-scroll_following_visible_characters = true
-
-[node name="PanelContainer4" type="PanelContainer" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer" unique_id=1222625164]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_08erg")
-
-[node name="rtlWorldChat" type="RichTextLabel" parent="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer4" unique_id=1215622013]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 16
-bbcode_enabled = true
-scroll_active = false
-scroll_following = true
-scroll_following_visible_characters = true
-vertical_alignment = 2
 
 [connection signal="text_changed" from="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer/txtInput" to="." method="_on_txt_input_text_changed"]
 [connection signal="focus_exited" from="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/txtBody" to="." method="onNotesFocusExited"]
