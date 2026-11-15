@@ -5,3 +5,15 @@ func _ready() -> void:
   # Controllers must be resolved before Console.setup() connects signals
   Globals.loadControllers()
   $Console.setup()
+
+func _notification(notif: int) -> void:
+  if notif == NOTIFICATION_WM_CLOSE_REQUEST:
+    print("Window close requested")
+    
+    # save player data before closing
+    if Globals.playerHandle != null:
+      Globals.consoleManager.printOutput("Disconnecting from syslog...")
+      await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
+
+    # Explicitly quit the tree when done
+    get_tree().quit()

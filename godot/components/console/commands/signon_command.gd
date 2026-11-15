@@ -8,6 +8,9 @@ func _init() -> void:
   arguments = [CommandSpec.argument("username", TYPE_STRING, false, "", "Username; prompts if omitted.")]
 
 func execute(input: CommandInput) -> void:
+  if not Globals.playerHandle.nickName.is_empty(): 
+    Globals.consoleManager.printOutput("Already connected as %s." % Globals.playerHandle.nickName, Globals.colors["CONSOLE"]["FONT_FAILURE"])
+    return
   var username: Variant = input.getString("username")
   if str(username).is_empty():
     username = await Globals.consoleManager.requestInput("Username:", validateUsername)

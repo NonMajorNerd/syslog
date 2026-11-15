@@ -230,10 +230,3 @@ func onNotesFocusExited() -> void:
 
 func _on_txt_input_text_changed(new_text: String) -> void:
   rtlTerminal.scroll_to_line(rtlTerminal.get_line_count())
-
-
-func _on_btn_save_pressed() -> void:
-  await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
-
-func _on_btn_load_pressed() -> void:
-  await Globals.playerHandle.loadHandle()
