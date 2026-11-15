@@ -323,4 +323,6 @@ wrap_mode = 1
 tab_input_mode = false
 
 [connection signal="text_changed" from="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer/txtInput" to="." method="_on_txt_input_text_changed"]
+[connection signal="pressed" from="screen/Console/HBoxContainer/Sidebar/VBoxContainer/btnSave" to="." method="_on_btn_save_pressed"]
+[connection signal="pressed" from="screen/Console/HBoxContainer/Sidebar/VBoxContainer/btnLoad" to="." method="_on_btn_load_pressed"]
 [connection signal="focus_exited" from="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/txtBody" to="." method="onNotesFocusExited"]

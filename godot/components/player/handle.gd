@@ -8,14 +8,14 @@ signal intelChanged
 signal repChanged
 signal knowledgeChanged
 
-var realName: String = ""
+#var realName: String = ""
 var nickName: String = ""
 
 var rig: Rig = Rig.new()
 var knowledge: PlayerKnowledge
 
-# /sys data
-var knownContacts: Dictionary[String, String] = {}
+# /sys data lives here to facilitate saving.
+var knownContacts: Dictionary[String, String]  = {}
 var readFiles: Dictionary[String, bool] = {}
 var activityLog: Array[String] = []
 
@@ -50,19 +50,100 @@ var intel: float = 0.0:
     #heat = val
     #heatChanged.emit()
 
-func loadHandle(username: String) -> void:
-  realName = username
 
-  # Reuse the instance across sign-ons to avoid duplicate signal listeners.
-  if knowledge == null:
-    knowledge = PlayerKnowledge.new()
-    knowledge.setup(self)
+func toDict() -> Dictionary:
+  return {
+    "nickName": nickName,
+    "rig": rig.toDict(),
+    "credits": credits,
+    "intel": intel,
+    "rep": rep,
+    "knownContacts": knownContacts,
+    "readFiles": readFiles,
+    "activityLog": activityLog,
+    "networks": networks
+  }
 
+
+func fromDict(d:Dictionary):
+  print("\n\nBefore\n" + str(d))
+  sanitize(d, ["cpu", "disk", "heat", "locksOpened", "lock_id", "net", "network_id", "ram", "rewardsCollected", "reward_id", "vists"])
+  print("\nAfter\n" + str(d) + "\n\n")
+  nickName = d["nickName"]
+  rig = Rig.new()
+  rig.fromDict(d["rig"])
+  credits = d["credits"]
+  intel = d["intel"]
+  rep = d["rep"]
+  activityLog.assign(d["activityLog"])
+  knownContacts.assign(d["knownContacts"])
+  readFiles.assign(d["readFiles"])
+  networks.assign(d["networks"])
+
+# recursive function to step through stringified JSON and convert specific keys and values
+func sanitize(d: Variant, keys: Array, isConvert: bool = false) -> Variant:
+  if d is Dictionary:
+    for key in d.keys():
+      var value = d[key]
+
+      # Convert numeric string keys to integers
+      if key is String and key.is_valid_int():
+        d.erase(key)
+        key = int(key)
+
+      # Recursively sanitize values
+      d[key] = sanitize(value, keys, key in keys)
+
+    return d
+
+  elif d is Array:
+    for i in range(d.size()):
+        d[i] = sanitize(d[i], keys, isConvert)
+
+    return d
+
+  elif isConvert:
+    return int(d)
+
+  return d
+
+  
+# attempt to load handle from db
+func loadHandle() -> bool:
+  print('loading handle...')
+  var handleData: Dictionary = await Globals.serverManager.readHandleAsync()
+  #print(str(handleData))
+  if handleData != {}:
+    Globals.playerHandle.fromDict(handleData)
+    ensureKnowledge()
+    discoverNetwork(rig.homeNet)
+    
+    
+    print('   ...true')
+    return true
+    
+  print('   ...false')
+  return false
+
+func newHandle(username: String) -> void:
+  print('new handle')
+  nickName = username
+
+  ensureKnowledge()
   discoverNetwork(rig.homeNet)
   
   if not Globals.gameNetworkManager.networkConnected.is_connected(onNetworkConnected):
     Globals.gameNetworkManager.networkConnected.connect(onNetworkConnected)
+    
+  # Register default commands
+  Globals.consoleManager.registerCommandsBulk([CatCommand.new(), ChatCommand.new(), \
+    CdCommand.new(), LsCommand.new(), ScoutCommand.new()])
 
+func ensureKnowledge() -> void:
+  # Reuse the instance across sign-ons to avoid duplicate signal listeners.
+  if knowledge != null: knowledge = null
+  knowledge = PlayerKnowledge.new()
+  knowledge.setup(self)
 
 func ensureNetworkProgress(networkID: int) -> void:
   if networks.has(networkID): return
@@ -91,7 +172,6 @@ func discoverNetwork(network: GameNetwork) -> void:
 
 
 func onNetworkConnected(network: GameNetwork) -> void:
-  # Ignore transient disconnections and the player's own home network.
   if network == null or network == rig.homeNet: return
 
   discoverNetwork(network)
@@ -101,11 +181,11 @@ func onNetworkConnected(network: GameNetwork) -> void:
   addLog("Connected to " + network.networkName)
 
 
-func discoverContact(contact: String, note: String = "") -> void:
-  if contact.is_empty() or knownContacts.has(contact): return
-
-  knownContacts[contact] = note
-  addLog("Discovered contact: " + contact)
+#func discoverContact(contact: String, note: String = "") -> void:
+  #if contact.is_empty() or knownContacts.has(contact): return
+#
+  #knownContacts[contact] = note
+  #addLog("Discovered contact: " + contact)
 
 
 func recordFileRead(network: GameNetwork, path: String) -> void:

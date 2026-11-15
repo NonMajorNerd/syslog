@@ -37,19 +37,33 @@ func connectSocket() -> int:
     errorMessage = connected.get_exception().message
 
   return result
-
+  
 # SignonCommand calls this after authentication and socket connection.
 func connectToWorld(username: String) -> void:
-
-  # Restore progress and homenet
-  Globals.playerHandle.loadHandle(username)
-  Globals.gameNetworkManager.activateNetwork(Globals.playerHandle.rig.homeNet)
+  var player: Handle = Globals.playerHandle
   
+  # load handle from db, or create new one if no db record
+  if await player.loadHandle(): 
+    # Register all 'learned' commands
+    Globals.consoleManager.registerCommandsBulk([CatCommand.new(), CdCommand.new(), ChatCommand.new(), \
+      ConnectCommand.new(), DisconnectCommand.new(), LsCommand.new(), ScoutCommand.new()])
+  else: player.newHandle(username)
+   
+  # setup player 
+  Globals.gameNetworkManager.activateNetwork(player.rig.homeNet)
+  Globals.gameNetworkManager.connectTo("homenet")
+  player.knowledge.setup(player)
+    
+  # load external networks
+  Globals.gameNetworkManager.loadNetworks()
+    
+  # connect to world chat
   connectToChat()
 
-  # Register default commands
-  Globals.consoleManager.registerCommandsBulk([CatCommand.new(), ChatCommand.new(), \
-    CdCommand.new(), LsCommand.new(), ScoutCommand.new()])
+  
+    
+  # Refresh UI elements
+  
 
 func connectToChat() -> void:
   var roomName = "WorldChat"
@@ -65,24 +79,24 @@ func connectToChat() -> void:
 func onChannelMessage(message: NakamaAPI.ApiChannelMessage) -> void:
   Globals.consoleManager.printChat("%s: %s" % [message.username, JSON.parse_string(message.content)["message"]])
 
-func writeHandlesAsync(handles: Array = []) -> void:
+func writeHandleAsync(handle: Handle) -> void:
   await client.write_storage_objects_async(session, 
-      [ NakamaWriteStorageObject.new("player_data", "handles",
+      [ NakamaWriteStorageObject.new("player_data", "handle",
           ReadPermissions.OWNER_READ, WritePermissions.OWNER_WRITE,
-          JSON.stringify({handles = handles}), "" )
+          JSON.stringify({handle = handle.toDict()}), "" )
       ] 
     )
 
-func readHandlesAsync() -> Array:
-  var handles: Array = []
+func readHandleAsync() -> Dictionary:
+  var results: Dictionary# = Handle.new()
   
   var storageObjects: NakamaAPI.ApiStorageObjects = await client.read_storage_objects_async(session,
-    [ NakamaStorageObjectId.new("player_data", "handles", session.user_id)]
+    [ NakamaStorageObjectId.new("player_data", "handle", session.user_id)]
   )
   
   if storageObjects.objects:
-    var decoded: Array = JSON.parse_string(storageObjects.objects[0].value).result.handles #["result"]["handles"]
+    var decoded: Dictionary = JSON.parse_string(storageObjects.objects[0].value)["handle"]
     return decoded
   
-  return []
+  return results
   

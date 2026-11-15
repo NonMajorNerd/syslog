@@ -29,6 +29,26 @@ func onPathChanged(path: String) -> void:
   pathChanged.emit(path)
 
 
+func loadNetworks() -> void:
+  var path = "res://components/networks/gameNetworks/"
+  var dir = DirAccess.open(path)
+
+  dir.list_dir_begin()
+
+  var file_name = dir.get_next()
+
+  while file_name != "":
+    if not dir.current_is_dir():
+      # Check if the file name matches
+      if file_name.ends_with(".json") and not file_name.begins_with("Homenet") and not file_name.begins_with("NetworkTemplate"):
+        var full_path = path.path_join(file_name)
+        loadNetworkJson(full_path)
+
+    file_name = dir.get_next()
+
+  dir.list_dir_end()
+
+
 func registerNetwork(network: GameNetwork) -> void:
   print("register; " + str(network))
   if network == null: return
@@ -95,7 +115,7 @@ func disconnectFrom() -> void:
   if activeNetwork == null: return
 
   var homeNetwork: GameNetwork = null
-  if Globals.playerHandle != null and not Globals.playerHandle.realName.is_empty(): homeNetwork = Globals.playerHandle.rig.homeNet
+  if Globals.playerHandle != null: homeNetwork = Globals.playerHandle.rig.homeNet
 
   if activeNetwork == homeNetwork: return
 

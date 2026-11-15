@@ -82,3 +82,15 @@ var homeFiletree: Dictionary = {
 }
 
 var homeNet: GameNetwork = GameNetwork.new("homenet", 0, 0, homeFiletree)
+
+func toDict() -> Dictionary:  
+  return {"cpu":cpu, "ram":ram, "net":net, "disk":disk, "threads":threads, "homeNet": homeNet.root}
+
+func fromDict(d:Dictionary) -> void:
+  cpu = d["cpu"]
+  ram = d["ram"]
+  net = d["net"]
+  disk = d["disk"]
+  threads = d["threads"]
+  homeNet = GameNetwork.new("homenet", 0, 0, d["homeNet"])
+  # = d["homeNet"]

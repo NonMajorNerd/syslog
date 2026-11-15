@@ -26,13 +26,8 @@ func _ready() -> void:
 
 func registerCommand(command: ConsoleCommand, multi: bool = false) -> bool:
   var key: String = command.commandName.to_lower()
-  if key.is_empty():
-    push_error("A command requires a name.")
-    return false
-    
-  if commands.has(key):
-    # Repeated unlock/connection registration should not generate errors.
-    return false
+  if key.is_empty(): return false
+  if commands.has(key): return false
     
   for alias in command.aliases:
     var normalized: String = alias.to_lower()

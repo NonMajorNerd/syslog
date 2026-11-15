@@ -1,10 +1,8 @@
 class_name PlayerKnowledge
 extends RefCounted
+# writes handle knowledge/info as sys files on homenet
 
-# Renders Handle-owned knowledge as the existing /sys files on homenet.
-# Rig defines the directory and file nodes; this class only writes their content.
 var playerHandle: Handle
-
 
 func setup(handle: Handle) -> void:
   playerHandle = handle

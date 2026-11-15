@@ -28,9 +28,6 @@ func _ready() -> void:
   txtInput.editable = true
   txtInput.grab_focus()
 
-func updateCreditsIntelRep() -> void:
-  rtlStatusLeft.text = "c%0.0d | i%0.0d" % [Globals.playerHandle.credits, Globals.playerHandle.intel]
-
 # main.gd calls this after Globals.loadControllers() has found the managers.
 func setup() -> void:
   # ConsoleManager -> UI: rendered output, prompt state, and command notices.
@@ -67,6 +64,10 @@ func setup() -> void:
   txtInput.grab_focus()
 
 
+func updateCreditsIntelRep() -> void:
+  rtlStatusLeft.text = "c%0.0d | i%0.0d" % [Globals.playerHandle.credits, Globals.playerHandle.intel]
+
+
 func onNetworkPathChange(_var) -> void:
   clearPrompt()
 
@@ -77,7 +78,7 @@ func clearPrompt() -> void:
   var path: String = "/"
   var auth: String = "$"
 
-  if Globals.playerHandle.realName != "": nick = Globals.playerHandle.realName #nickname once available
+  if Globals.playerHandle.nickName != "": nick = Globals.playerHandle.nickName
   if Globals.gameNetworkManager.activeNetwork:
     net = Globals.gameNetworkManager.activeNetwork.networkName.to_lower()
     path = Globals.gameNetworkManager.activeNetwork.getCurrentPath()
@@ -229,3 +230,10 @@ func onNotesFocusExited() -> void:
 
 func _on_txt_input_text_changed(new_text: String) -> void:
   rtlTerminal.scroll_to_line(rtlTerminal.get_line_count())
+
+
+func _on_btn_save_pressed() -> void:
+  await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
+
+func _on_btn_load_pressed() -> void:
+  await Globals.playerHandle.loadHandle()
