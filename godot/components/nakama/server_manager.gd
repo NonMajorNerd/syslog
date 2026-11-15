@@ -60,10 +60,6 @@ func connectToWorld(username: String) -> void:
   # connect to world chat
   connectToChat()
 
-  
-    
-  # Refresh UI elements
-  
 
 func connectToChat() -> void:
   var roomName = "WorldChat"
@@ -80,15 +76,17 @@ func onChannelMessage(message: NakamaAPI.ApiChannelMessage) -> void:
   Globals.consoleManager.printChat("%s: %s" % [message.username, JSON.parse_string(message.content)["message"]])
 
 func writeHandleAsync(handle: Handle) -> void:
-  await client.write_storage_objects_async(session, 
+  var result: NakamaAPI.ApiStorageObjectAcks
+  result = await client.write_storage_objects_async(session, 
       [ NakamaWriteStorageObject.new("player_data", "handle",
           ReadPermissions.OWNER_READ, WritePermissions.OWNER_WRITE,
           JSON.stringify({handle = handle.toDict()}), "" )
       ] 
     )
+  print("\n!!!\n" + result.to_string())
 
 func readHandleAsync() -> Dictionary:
-  var results: Dictionary# = Handle.new()
+  var results: Dictionary
   
   var storageObjects: NakamaAPI.ApiStorageObjects = await client.read_storage_objects_async(session,
     [ NakamaStorageObjectId.new("player_data", "handle", session.user_id)]

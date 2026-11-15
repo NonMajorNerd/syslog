@@ -8,12 +8,7 @@ func _ready() -> void:
 
 func _notification(notif: int) -> void:
   if notif == NOTIFICATION_WM_CLOSE_REQUEST:
-    print("Window close requested")
-    
-    # save player data before closing
-    if Globals.playerHandle != null:
-      Globals.consoleManager.printOutput("Disconnecting from syslog...")
-      await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
-
-    # Explicitly quit the tree when done
+    print("\nClosing!")
+    Globals.consoleManager.printOutput("Disconnecting from syslog...")
+    await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
     get_tree().quit()

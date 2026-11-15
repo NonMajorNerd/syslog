@@ -58,6 +58,8 @@ func setup() -> void:
   #rtlResources.add_theme_color_override("default_color", Globals.colors["CONSOLE"]["FONT_MUTED"])
 
   Globals.consoleManager.printOutput("Pinnacle Systems Engine v7.4.stable.public\nEncryPS API 9.2.2 release 1.36", Globals.colors["CONSOLE"]["FONT_MUTED"])
+  Globals.consoleManager.printOutput("\nNotice: User database was recently cleared.", Globals.colors["CONSOLE"]["FONT_NOTIF"])
+  Globals.consoleManager.printOutput("Previous users may need to re-register on first new login.", Globals.colors["CONSOLE"]["FONT_MUTED"])
 
   clearPrompt()
   txtInput.secret = false
