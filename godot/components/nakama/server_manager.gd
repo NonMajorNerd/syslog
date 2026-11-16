@@ -24,8 +24,8 @@ func authenticateAsync(user: String, email: String, password: String, register: 
     errorMessage = newSession.get_exception().message
   else:
     session = newSession
-    print("ID: ", session.user_id)
-    print("Username: ", session.username)
+    #print("ID: ", session.user_id)
+    #print("Username: ", session.username)
 
   return result
 
@@ -73,7 +73,7 @@ func connectToChat() -> void:
 
   # Nakama socket -> onChannelMessage() -> consoleManager.printChat() -> UI
   socket.received_channel_message.connect(self.onChannelMessage)
-  print("Now connected to channel id: '%s'" % [channelWorldChat.id])
+  #print("Now connected to channel id: '%s'" % [channelWorldChat.id])
 
 
 func onChannelMessage(message: NakamaAPI.ApiChannelMessage) -> void:
@@ -163,7 +163,7 @@ func readHandleAsync() -> Dictionary:
     push_error("Nakama read failed (%s): %s" % [ exception.status_code, exception.message ] )
     return {}
 
-  print("Storage objects found: ", storageObjects.objects.size())
+  #print("objects: ", storageObjects.objects.size())
 
   if storageObjects.objects.is_empty():
     push_warning("No saved handle for user: " + session.user_id)
@@ -184,5 +184,5 @@ func readHandleAsync() -> Dictionary:
     push_error("Saved handle is not a dictionary.")
     return {}
 
-  print("Handle data loaded successfully.")
+  #print("Handle data loaded")
   return parsed["handle"]

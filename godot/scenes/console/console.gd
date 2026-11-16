@@ -9,7 +9,8 @@ extends CanvasLayer
 @onready var rtlStatusCenter: RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/statusbar/HBoxContainer/rtlStatusCenter
 @onready var rtlStatusRight: RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/statusbar/HBoxContainer/rtlStatusRight
 
-@onready var rtlChat: RichTextLabel = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/rtlWorldChat
+#@onready var rtlChat: RichTextLabel = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer/rtlWorldChat
+@onready var rtlChat: RichTextLabel = $screen/Overlay/PanelContainer/rtlWorldChat
 
 @onready var txtBody: TextEdit = $screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/txtBody
 
