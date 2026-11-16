@@ -13,8 +13,9 @@ func _notification(notif: int) -> void:
 func closeGame() -> void:
   print("\nClosing!")
   Globals.consoleManager.printOutput("Disconnecting from syslog...")
-  var saved: bool = await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
-  if not saved: return
+  if not Globals.playerHandle.nickName.is_empty():
+    var saved: bool = await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
+    if not saved: return
   
   get_tree().quit()
     
