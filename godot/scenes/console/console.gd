@@ -1,3 +1,4 @@
+class_name  UIManager
 extends CanvasLayer
 
 @onready var rtlTerminal: RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/rtlTerminal
@@ -24,7 +25,7 @@ func _process(_delta: float) -> void:
 
 func _ready() -> void:
   # Keep the terminal locked during the existing boot delay.
-  await get_tree().create_timer(6.0).timeout
+  await get_tree().create_timer(5.0).timeout
   txtInput.editable = true
   txtInput.grab_focus()
 

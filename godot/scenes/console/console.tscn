@@ -94,7 +94,11 @@ content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_bottom = 1.0
 
-[node name="CanvasLayer" type="CanvasLayer" unique_id=1442416102]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5dyh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_utgqc"]
+
+[node name="UIManager" type="CanvasLayer" unique_id=1442416102]
 layer = 3
 script = ExtResource("1_gf67r")
 
@@ -306,6 +310,33 @@ text = "This document lives on your home net.
 It is always available for remote editing."
 wrap_mode = 1
 tab_input_mode = false
+
+[node name="Overlay" type="PanelContainer" parent="screen" unique_id=1264202329]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_m5dyh")
+
+[node name="PanelContainer" type="PanelContainer" parent="screen/Overlay" unique_id=979174703]
+custom_minimum_size = Vector2(200, 0)
+custom_maximum_size = Vector2(-1, 515)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_utgqc")
+
+[node name="rtlWorldChat" type="RichTextLabel" parent="screen/Overlay/PanelContainer" unique_id=993713986]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+vertical_alignment = 2
 
 [connection signal="text_changed" from="screen/Console/HBoxContainer/PanelContainer/VBoxContainer/inputline/HBoxContainer/txtInput" to="." method="_on_txt_input_text_changed"]
 [connection signal="focus_exited" from="screen/Console/HBoxContainer/Sidebar/VBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/txtBody" to="." method="onNotesFocusExited"]

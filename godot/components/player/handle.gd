@@ -66,9 +66,7 @@ func toDict() -> Dictionary:
 
 
 func fromDict(d:Dictionary):
-  print("\n\nBefore\n" + str(d))
   sanitize(d, ["cpu", "disk", "heat", "locksOpened", "lock_id", "net", "network_id", "ram", "rewardsCollected", "reward_id", "visits"])
-  print("\nAfter\n" + str(d) + "\n\n")
   nickName = d["nickName"]
   rig = Rig.new()
   rig.fromDict(d["rig"])
@@ -110,32 +108,20 @@ func sanitize(d: Variant, keys: Array, isConvert: bool = false) -> Variant:
   
 # attempt to load handle from db
 func loadHandle() -> bool:
-  print("Loading handle")
-
   var handleData: Dictionary = await Globals.serverManager.readHandleAsync()
-
-  print(" ...Received data: ", handleData)
-
-  if handleData.is_empty():
-    print(" ...Handle data is empty")
-    return false
-
-  print(" ...Starting fromDict")
-
+  if handleData.is_empty(): return false
+  
   fromDict(handleData)
-
   ensureKnowledge()
   discoverNetwork(rig.homeNet)
   
   if not Globals.gameNetworkManager.networkConnected.is_connected(onNetworkConnected):
     Globals.gameNetworkManager.networkConnected.connect(onNetworkConnected)
   
-  print(" ...Handle loaded successfully")
   return true
   
   
 func newHandle(username: String) -> void:
-  print('new handle')
   nickName = username
 
   ensureKnowledge()

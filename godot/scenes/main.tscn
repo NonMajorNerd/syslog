@@ -95,7 +95,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_0ld40"]
 resource_name = "bootup"
-length = 6.0
+length = 5.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -139,7 +139,7 @@ tracks/3/path = NodePath(".:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 6),
+"times": PackedFloat32Array(0, 5.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -151,7 +151,7 @@ tracks/4/path = NodePath(".:process_mode")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 6),
+"times": PackedFloat32Array(0, 5.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 4]
@@ -220,4 +220,4 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_dqxiu")
 
-[node name="Console" parent="." unique_id=457722318 instance=ExtResource("3_sugp2")]
+[node name="UIManager" parent="." unique_id=457722318 instance=ExtResource("3_sugp2")]

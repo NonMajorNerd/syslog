@@ -50,7 +50,7 @@ func loadNetworks() -> void:
 
 
 func registerNetwork(network: GameNetwork) -> void:
-  print("register; " + str(network))
+  #print("register; " + str(network))
   if network == null: return
 
   for registeredName in networks:
@@ -76,7 +76,6 @@ func getAvailableNetworks() -> Array[String]:
 
 # Disconnect the old session first, then activate the requested network.
 func connectTo(networkName: String) -> bool:
-  print("%s .... %s" %[networkName, str(networks)])
   if not networks.has(networkName): return false
 
   var nextNetwork: GameNetwork = networks[networkName]
