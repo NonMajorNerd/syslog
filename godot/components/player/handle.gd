@@ -67,7 +67,7 @@ func toDict() -> Dictionary:
 
 func fromDict(d:Dictionary):
   print("\n\nBefore\n" + str(d))
-  sanitize(d, ["cpu", "disk", "heat", "locksOpened", "lock_id", "net", "network_id", "ram", "rewardsCollected", "reward_id", "vists"])
+  sanitize(d, ["cpu", "disk", "heat", "locksOpened", "lock_id", "net", "network_id", "ram", "rewardsCollected", "reward_id", "visits"])
   print("\nAfter\n" + str(d) + "\n\n")
   nickName = d["nickName"]
   rig = Rig.new()
@@ -110,21 +110,27 @@ func sanitize(d: Variant, keys: Array, isConvert: bool = false) -> Variant:
   
 # attempt to load handle from db
 func loadHandle() -> bool:
-  print('loading handle...')
-  var handleData: Dictionary = await Globals.serverManager.readHandleAsync()
-  #print(str(handleData))
-  if handleData != {}:
-    Globals.playerHandle.fromDict(handleData)
-    ensureKnowledge()
-    discoverNetwork(rig.homeNet)
-    
-    
-    print('   ...true')
-    return true
-    
-  print('   ...false')
-  return false
+  print("Loading handle")
 
+  var handleData: Dictionary = await Globals.serverManager.readHandleAsync()
+
+  print(" ...Received data: ", handleData)
+
+  if handleData.is_empty():
+    print(" ...Handle data is empty")
+    return false
+
+  print(" ...Starting fromDict")
+
+  fromDict(handleData)
+
+  ensureKnowledge()
+  discoverNetwork(rig.homeNet)
+
+  print(" ...Handle loaded successfully")
+  return true
+  
+  
 func newHandle(username: String) -> void:
   print('new handle')
   nickName = username
@@ -139,11 +145,13 @@ func newHandle(username: String) -> void:
   Globals.consoleManager.registerCommandsBulk([CatCommand.new(), ChatCommand.new(), \
     CdCommand.new(), LsCommand.new(), ScoutCommand.new()])
 
+
 func ensureKnowledge() -> void:
   # Reuse the instance across sign-ons to avoid duplicate signal listeners.
   if knowledge != null: knowledge = null
   knowledge = PlayerKnowledge.new()
   knowledge.setup(self)
+
 
 func ensureNetworkProgress(networkID: int) -> void:
   if networks.has(networkID): return
