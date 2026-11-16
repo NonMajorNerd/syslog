@@ -126,7 +126,10 @@ func loadHandle() -> bool:
 
   ensureKnowledge()
   discoverNetwork(rig.homeNet)
-
+  
+  if not Globals.gameNetworkManager.networkConnected.is_connected(onNetworkConnected):
+    Globals.gameNetworkManager.networkConnected.connect(onNetworkConnected)
+  
   print(" ...Handle loaded successfully")
   return true
   

@@ -8,7 +8,6 @@ var gameNetworkManager: NetworkManager
 
 var playerHandle: Handle = null
 
-
 var colors: Dictionary = {
   "CONSOLE": {
     "FONT_DEFAULT": Color("d9dff8ff"), # Text
@@ -20,8 +19,7 @@ var colors: Dictionary = {
   }
 }
 
-# Main calls this before Console.setup(); the console's signal bindings
-# require these manager references to already be available.
+# Main calls this before Console.setup()
 func loadControllers() -> void:
   Globals.playerHandle = Handle.new()
 
@@ -35,7 +33,4 @@ func loadControllers() -> void:
   else:  consoleManager =  get_tree().current_scene.find_child("ConsoleManager")
 
   if not get_tree().current_scene.find_child("GameNetworkManager"): print("No Game Network controller")
-  else:
-    gameNetworkManager =  get_tree().current_scene.find_child("GameNetworkManager")
-    gameNetworkManager.loadNetworkJson("res://components/networks/gameNetworks/HelixDynamics.json")
-    print("!!loaded")
+  else: gameNetworkManager = get_tree().current_scene.find_child("GameNetworkManager")

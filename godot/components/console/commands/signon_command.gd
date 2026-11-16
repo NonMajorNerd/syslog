@@ -30,7 +30,7 @@ func execute(input: CommandInput) -> void:
     return
   Globals.consoleManager.printOutput("Connected as %s." % username, Globals.colors["CONSOLE"]["FONT_SUCCESS"])
   # Loads the player, activates homeNet, registers commands, and joins chat.
-  Globals.serverManager.connectToWorld(str(username))
+  await Globals.serverManager.connectToWorld(str(username))
 
 func validateUsername(value: String) -> String:
   return "Username cannot be empty." if value.strip_edges().is_empty() else ""
