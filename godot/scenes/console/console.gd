@@ -1,4 +1,4 @@
-class_name  UIManager
+class_name UIManager
 extends CanvasLayer
 
 @onready var rtlTerminal: RichTextLabel = $screen/Console/HBoxContainer/PanelContainer/VBoxContainer/rtlTerminal
@@ -24,17 +24,22 @@ var historyDraft: String = ""
 func _process(_delta: float) -> void:
   rtlStatusRight.text = Time.get_datetime_string_from_system(true, true) + " UTC"
 
+
 func _ready() -> void:
   # Keep the terminal locked during the existing boot delay.
   await get_tree().create_timer(5.0).timeout
   txtInput.editable = true
   txtInput.grab_focus()
 
+
 # main.gd calls this after Globals.loadControllers() has found the managers.
 func setup() -> void:
   # ConsoleManager -> UI: rendered output, prompt state, and command notices.
   Globals.consoleManager.outputPrinted.connect(onOutputPrinted)
-  Globals.consoleManager.outputCleared.connect(func() -> void: rtlTerminal.clear())
+  Globals.consoleManager.outputCleared.connect(
+    func() -> void:
+      rtlTerminal.clear(),
+  )
   Globals.consoleManager.commandsRegistered.connect(onCommandsRegistered)
   Globals.consoleManager.chatPrinted.connect(onChatPrinted)
   Globals.consoleManager.promptChanged.connect(onPromptChanged)
@@ -58,8 +63,10 @@ func setup() -> void:
   rtlPrompt.add_theme_color_override("default_color", Globals.colors["CONSOLE"]["FONT_DEFAULT"])
   txtInput.add_theme_color_override("font_color", Globals.colors["CONSOLE"]["FONT_DEFAULT"])
   #rtlResources.add_theme_color_override("default_color", Globals.colors["CONSOLE"]["FONT_MUTED"])
-
-  Globals.consoleManager.printOutput("Pinnacle Systems Engine v7.4.stable.public\nEncryPS API 9.2.2 release 1.36", Globals.colors["CONSOLE"]["FONT_MUTED"])
+  Globals.consoleManager.printOutput(
+    "Pinnacle Systems Engine v7.4.stable.public\nEncryPS API 9.2.2 release 1.36",
+    Globals.colors["CONSOLE"]["FONT_MUTED"],
+  )
   Globals.consoleManager.printOutput("\nNotice: User database was recently cleared.", Globals.colors["CONSOLE"]["FONT_NOTIF"])
   Globals.consoleManager.printOutput("Previous users may need to re-register on first new login.", Globals.colors["CONSOLE"]["FONT_MUTED"])
 
@@ -82,11 +89,13 @@ func clearPrompt() -> void:
   var path: String = "/"
   var auth: String = "$"
 
-  if Globals.playerHandle.nickName != "": nick = Globals.playerHandle.nickName
+  if Globals.playerHandle.nickName != "":
+    nick = Globals.playerHandle.nickName
   if Globals.gameNetworkManager.activeNetwork:
     net = Globals.gameNetworkManager.activeNetwork.networkName.to_lower()
     path = Globals.gameNetworkManager.activeNetwork.getCurrentPath()
-  if net == "homenet": auth = "#"
+  if net == "homenet":
+    auth = "#"
 
   rtlPrompt.text = "%s@%s:%s%s" % [nick, net, path, auth]
 
@@ -96,40 +105,50 @@ func onCommandsRegistered(cmds: String):
 
 
 func onChatPrinted(msg: String, clr: Color) -> void:
-  if not msg: return
+  if not msg:
+    return
   rtlChat.append_text("[color=#%s]%s[/color]\n" % [clr.to_html(false), msg])
 
 
 func onOutputPrinted(msg: String, clr: Color) -> void:
-  if not msg: return
+  if not msg:
+    return
   rtlTerminal.append_text("[color=#%s]%s[/color]\n" % [clr.to_html(false), msg])
 
 
 func onPromptChanged(promptText: String, secret: bool) -> void:
-  if promptText == "": clearPrompt()
-  else: rtlPrompt.text = promptText
+  if promptText == "":
+    clearPrompt()
+  else:
+    rtlPrompt.text = promptText
   txtInput.secret = secret
 
 
 func onInputEnabledChanged(enabled: bool) -> void:
   txtInput.editable = enabled
-  if enabled: txtInput.grab_focus()
+  if enabled:
+    txtInput.grab_focus()
 
 
 func onInputSubmitted(input: String) -> void:
   var isPromptInput: bool = Globals.consoleManager.activePrompt != null
 
   # Suppress echo for secrets
-  if txtInput.secret: rtlTerminal.append_text(rtlPrompt.text + "\n")
-  else: rtlTerminal.append_text(rtlPrompt.text + " " + input + "\n")
+  if txtInput.secret:
+    rtlTerminal.append_text(rtlPrompt.text + "\n")
+  else:
+    rtlTerminal.append_text(rtlPrompt.text + " " + input + "\n")
 
-  if input.strip_edges().is_empty() and not isPromptInput: return
+  if input.strip_edges().is_empty() and not isPromptInput:
+    return
 
   # keep prompt answers out of history
-  if not isPromptInput: addToHistory(input)
+  if not isPromptInput:
+    addToHistory(input)
 
   # random chance for glitch sfx
-  if randi_range(1, 100) <= 33: Globals.audioManager.playRandom("glitch")
+  if randi_range(1, 100) <= 33:
+    Globals.audioManager.playRandom("glitch")
 
   txtInput.clear()
   # The manager routes the value to a prompt or normal command execution.
@@ -137,8 +156,10 @@ func onInputSubmitted(input: String) -> void:
 
 
 func _input(event: InputEvent) -> void:
-  if not event is InputEventKey: return
-  if not event.pressed or event.echo: return
+  if not event is InputEventKey:
+    return
+  if not event.pressed or event.echo:
+    return
 
   # Only navigate command history during normal command input.
   # Tab and history are available only outside interactive prompts.
@@ -177,7 +198,8 @@ func _input(event: InputEvent) -> void:
 
 func addToHistory(command: String) -> void:
   command = command.strip_edges()
-  if command.is_empty(): return
+  if command.is_empty():
+    return
 
   # Avoid consecutive duplicate entries.
   if not commandHistory.is_empty():
@@ -188,17 +210,20 @@ func addToHistory(command: String) -> void:
   commandHistory.append(command)
 
   # Limit history size.
-  if commandHistory.size() > MAX_HISTORY: commandHistory.pop_front()
+  if commandHistory.size() > MAX_HISTORY:
+    commandHistory.pop_front()
   resetHistoryNavigation()
 
 
 func navigateHistory(direction: int) -> void:
-  if commandHistory.is_empty(): return
+  if commandHistory.is_empty():
+    return
 
   # Save current input when first entering history.
   # Save the draft input so Down can restore it after browsing history.
   if historyIndex == -1:
-    if direction > 0: return
+    if direction > 0:
+      return
 
     historyDraft = txtInput.text
     historyIndex = commandHistory.size() - 1
@@ -227,7 +252,8 @@ func resetHistoryNavigation() -> void:
 
 func onNotesFocusExited() -> void:
   # update homenet/documents/notes.txt
-  if Globals.playerHandle == null: return
+  if Globals.playerHandle == null:
+    return
   var homenet: GameNetwork = Globals.playerHandle.rig.homeNet
   homenet.writeFile("/documents/notes.txt", txtBody.text.strip_edges().strip_escapes())
 

@@ -15,24 +15,22 @@ var rig: Rig = Rig.new()
 var knowledge: PlayerKnowledge
 
 # /sys data lives here to facilitate saving.
-var knownContacts: Dictionary[String, String]  = {}
-var readFiles: Dictionary[String, bool] = {}
+var knownContacts: Dictionary[String, String] = { }
+var readFiles: Dictionary[String, bool] = { }
 var activityLog: Array[String] = []
 
 # Per-network data and progression: visits, heat, unlocked lock IDs and one-time reward IDs.
-var networks: Dictionary[int, Dictionary] = {}
-  #{ 0: {
-        #"name": "homenet",
-        #"known": true,
-        #"visits": 0,
-        #"heat": 0,
-        #"locksOpened": [],
-        #"rewardsCollected": [] 
-    #}
+var networks: Dictionary[int, Dictionary] = { }
+#{ 0: {
+#"name": "homenet",
+#"known": true,
+#"visits": 0,
+#"heat": 0,
+#"locksOpened": [],
+#"rewardsCollected": []
 #}
-
+#}
 #const MAX_LOG_ENTRIES: int = 100
-
 var rep: float = 0.0:
   set(val):
     rep = val
@@ -45,12 +43,12 @@ var intel: float = 0.0:
   set(val):
     intel = val
     intelChanged.emit()
+
+
 #var heat: float = 0.0:
-  #set(val):
-    #heat = val
-    #heatChanged.emit()
-
-
+#set(val):
+#heat = val
+#heatChanged.emit()
 func toDict() -> Dictionary:
   return {
     "nickName": nickName,
@@ -61,11 +59,11 @@ func toDict() -> Dictionary:
     "knownContacts": knownContacts,
     "readFiles": readFiles,
     "activityLog": activityLog,
-    "networks": networks
+    "networks": networks,
   }
 
 
-func fromDict(d:Dictionary):
+func fromDict(d: Dictionary):
   sanitize(d, ["cpu", "disk", "heat", "locksOpened", "lock_id", "net", "network_id", "ram", "rewardsCollected", "reward_id", "visits"])
   nickName = d["nickName"]
   rig = Rig.new()
@@ -77,6 +75,7 @@ func fromDict(d:Dictionary):
   knownContacts.assign(d["knownContacts"])
   readFiles.assign(d["readFiles"])
   networks.assign(d["networks"])
+
 
 # recursive function to step through stringified JSON and convert specific keys and values
 func sanitize(d: Variant, keys: Array, isConvert: bool = false) -> Variant:
@@ -94,74 +93,80 @@ func sanitize(d: Variant, keys: Array, isConvert: bool = false) -> Variant:
 
     return d
 
-  elif d is Array:
+  if d is Array:
     for i in range(d.size()):
-        d[i] = sanitize(d[i], keys, isConvert)
+      d[i] = sanitize(d[i], keys, isConvert)
 
     return d
 
-  elif isConvert:
+  if isConvert:
     return int(d)
 
   return d
 
-  
+
 # attempt to load handle from db
 func loadHandle() -> bool:
   var handleData: Dictionary = await Globals.serverManager.readHandleAsync()
-  if handleData.is_empty(): return false
-  
+  if handleData.is_empty():
+    return false
+
   fromDict(handleData)
   ensureKnowledge()
   discoverNetwork(rig.homeNet)
-  
+
   if not Globals.gameNetworkManager.networkConnected.is_connected(onNetworkConnected):
     Globals.gameNetworkManager.networkConnected.connect(onNetworkConnected)
-  
+
   return true
-  
-  
+
+
 func newHandle(username: String) -> void:
   nickName = username
 
   ensureKnowledge()
   discoverNetwork(rig.homeNet)
-  
+
   if not Globals.gameNetworkManager.networkConnected.is_connected(onNetworkConnected):
     Globals.gameNetworkManager.networkConnected.connect(onNetworkConnected)
-    
+
   # Register default commands
-  Globals.consoleManager.registerCommandsBulk([CatCommand.new(), ChatCommand.new(), \
-    CdCommand.new(), LsCommand.new(), ScoutCommand.new()])
+  Globals.consoleManager.registerCommandsBulk(
+    [
+      CatCommand.new(),
+      ChatCommand.new(),
+      \
+      CdCommand.new(),
+      LsCommand.new(),
+      ScoutCommand.new(),
+    ]
+  )
 
 
 func ensureKnowledge() -> void:
   # Reuse the instance across sign-ons to avoid duplicate signal listeners.
-  if knowledge != null: knowledge = null
+  if knowledge != null:
+    knowledge = null
   knowledge = PlayerKnowledge.new()
   knowledge.setup(self)
 
 
 func ensureNetworkProgress(networkID: int) -> void:
-  if networks.has(networkID): return
+  if networks.has(networkID):
+    return
 
   # A progress entry does not mean the player has discovered the network.
-  networks[networkID] = {
-    "name": "",
-    "known": false,
-    "visits": 0,
-    "heat": 0,
-    "locksOpened": [],
-    "rewardsCollected": []
-  }
+  networks[networkID] = { "name": "", "known": false, "visits": 0, "heat": 0, "locksOpened": [], "rewardsCollected": [] }
 
 
 func discoverNetwork(network: GameNetwork) -> void:
-  if network == null: return
+  if network == null:
+    return
 
   ensureNetworkProgress(network.networkID)
   var record: Dictionary = networks[network.networkID]
-  if record.get("known", false): return
+  if record.get("known", false):
+    return
 
   record["known"] = true
   record["name"] = network.networkName
@@ -169,7 +174,8 @@ func discoverNetwork(network: GameNetwork) -> void:
 
 
 func onNetworkConnected(network: GameNetwork) -> void:
-  if network == null or network == rig.homeNet: return
+  if network == null or network == rig.homeNet:
+    return
 
   discoverNetwork(network)
   var record: Dictionary = networks[network.networkID]
@@ -179,17 +185,17 @@ func onNetworkConnected(network: GameNetwork) -> void:
 
 
 #func discoverContact(contact: String, note: String = "") -> void:
-  #if contact.is_empty() or knownContacts.has(contact): return
+#if contact.is_empty() or knownContacts.has(contact): return
 #
-  #knownContacts[contact] = note
-  #addLog("Discovered contact: " + contact)
-
-
+#knownContacts[contact] = note
+#addLog("Discovered contact: " + contact)
 func recordFileRead(network: GameNetwork, path: String) -> void:
-  if network == null or network.getNode(path).get("type") != "file": return
+  if network == null or network.getNode(path).get("type") != "file":
+    return
 
   var fileID: String = "%d:%s" % [network.networkID, network.getAbsolutePath(path)]
-  if readFiles.has(fileID): return
+  if readFiles.has(fileID):
+    return
 
   readFiles[fileID] = true
   addLog("Read file: " + fileID)
@@ -203,7 +209,8 @@ func addLog(message: String) -> void:
 
 # GameNetwork.directoryUnlocked -> this handler, connected by NetworkManager.
 func onLockUnlocked(network: GameNetwork, lockID: int) -> void:
-  if network == null or lockID < 0: return
+  if network == null or lockID < 0:
+    return
   ensureNetworkProgress(network.networkID)
 
   var opened: Array = networks[network.networkID]["locksOpened"]
@@ -223,7 +230,8 @@ func hasCollectedReward(networkID: int, rewardID: int) -> bool:
 
 
 func markRewardCollected(networkID: int, rewardID: int) -> void:
-  if rewardID < 0: return
+  if rewardID < 0:
+    return
   ensureNetworkProgress(networkID)
 
   var collected: Array = networks[networkID]["rewardsCollected"]
@@ -234,35 +242,40 @@ func markRewardCollected(networkID: int, rewardID: int) -> void:
 
 # check file, validate reward ID, pay the man, mark the reward as collected
 func collectFileRewards(network: GameNetwork, path: String) -> Dictionary:
-  if network == null: return {}
+  if network == null:
+    return { }
 
   var node: Dictionary = network.getNode(path)
-  if node.get("type") != "file": return {}
+  if node.get("type") != "file":
+    return { }
 
-  var definition: Variant = node.get("rewards", {})
-  if not definition is Dictionary or definition.is_empty(): return {}
+  var definition: Variant = node.get("rewards", { })
+  if not definition is Dictionary or definition.is_empty():
+    return { }
 
   var rewardID: Variant = definition.get("reward_id", null)
   if typeof(rewardID) != TYPE_INT or rewardID < 0:
     push_error("Missing or invalid reward_id: %s" % network.getAbsolutePath(path))
-    return {}
+    return { }
 
   # reward can only be claimed once per network/progress record.
-  if hasCollectedReward(network.networkID, rewardID): return {}
+  if hasCollectedReward(network.networkID, rewardID):
+    return { }
 
-  var awarded: Dictionary = {}
+  var awarded: Dictionary = { }
   for resource in ["currency", "intel", "rep"]:
     if definition.has(resource):
       var amount: Variant = definition[resource]
       if typeof(amount) != TYPE_INT and typeof(amount) != TYPE_FLOAT:
         push_error("Invalid %s reward: %s" % [resource, network.getAbsolutePath(path)])
-        return {}
+        return { }
       if amount < 0:
         push_error("Negative %s reward: %s" % [resource, network.getAbsolutePath(path)])
-        return {}
+        return { }
       awarded[resource] = amount
 
-  if awarded.is_empty(): return {}
+  if awarded.is_empty():
+    return { }
 
   # Resource setters emit the signals observed by the console sidebar.
   applyRewards(awarded)

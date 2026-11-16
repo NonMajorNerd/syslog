@@ -1,11 +1,13 @@
 class_name DisconnectCommand
 extends ConsoleCommand
 
+
 func _init() -> void:
   commandName = "disconnect"
   aliases = ["dc"]
   category = "Networking"
   description = "Disconnect from the active external network."
+
 
 func execute(_input: CommandInput) -> void:
   var network: GameNetwork = Globals.gameNetworkManager.activeNetwork

@@ -1,10 +1,12 @@
 class_name ScoutCommand
 extends ConsoleCommand
 
+
 func _init() -> void:
   commandName = "scout"
   category = "Networking"
   description = "Scan for available networks."
+
 
 func execute(_input: CommandInput) -> void:
   Globals.consoleManager.printOutput("Scanning for available networks...", Globals.colors["CONSOLE"]["FONT_MUTED"])

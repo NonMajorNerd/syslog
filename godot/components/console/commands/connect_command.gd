@@ -1,12 +1,14 @@
 class_name ConnectCommand
 extends ConsoleCommand
 
+
 func _init() -> void:
   commandName = "connect"
   aliases = ["con"]
   category = "Networking"
   description = "Connect to an available network."
   arguments = [CommandSpec.argument("network", TYPE_STRING, true, null, "Network name.")]
+
 
 func execute(input: CommandInput) -> void:
   var target: String = input.getString("network")
@@ -25,9 +27,11 @@ func execute(input: CommandInput) -> void:
     if not contents.is_empty():
       Globals.consoleManager.printOutput("\n" + contents)
 
+
 func completeArgument(name: String, partial: String) -> Array[String]:
   var matches: Array[String] = []
   if name == "network":
     for networkName in Globals.gameNetworkManager.getAvailableNetworks():
-      if networkName.to_lower().begins_with(partial.to_lower()): matches.append(networkName)
+      if networkName.to_lower().begins_with(partial.to_lower()):
+        matches.append(networkName)
   return matches

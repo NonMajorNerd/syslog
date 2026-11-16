@@ -4,6 +4,7 @@ extends RefCounted
 
 var playerHandle: Handle
 
+
 func setup(handle: Handle) -> void:
   playerHandle = handle
 
@@ -13,7 +14,6 @@ func setup(handle: Handle) -> void:
   playerHandle.intelChanged.connect(refreshStats)
   playerHandle.repChanged.connect(refreshStats)
   #playerHandle.heatChanged.connect(refreshStats)
-
   refreshFiles()
 
 
@@ -45,8 +45,10 @@ func refreshNetworks() -> void:
   var lines: Array[String] = ["KNOWN NETWORKS", ""]
   var ids: Array[int] = []
   for networkID in playerHandle.networks:
-    if networkID == 0: continue
-    if playerHandle.networks[networkID].get("known", false): ids.append(networkID)
+    if networkID == 0:
+      continue
+    if playerHandle.networks[networkID].get("known", false):
+      ids.append(networkID)
   ids.sort()
 
   for networkID in ids:
@@ -59,7 +61,8 @@ func refreshNetworks() -> void:
 func refreshStats() -> void:
   var knownNetworkCount: int = 0
   for info in playerHandle.networks.values():
-    if info.get("known", false): knownNetworkCount += 1
+    if info.get("known", false):
+      knownNetworkCount += 1
 
   var lines: Array[String] = [
     "PLAYER STATS",
@@ -75,7 +78,7 @@ func refreshStats() -> void:
     "",
     "Known networks: %0.0d" % knownNetworkCount,
     "Known contacts: %0.0d" % playerHandle.knownContacts.size(),
-    "Files read: %0.0d" % playerHandle.readFiles.size()
+    "Files read: %0.0d" % playerHandle.readFiles.size(),
   ]
 
   updateFile("stats.txt", "\n".join(lines))

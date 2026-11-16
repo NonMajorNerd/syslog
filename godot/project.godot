@@ -27,6 +27,10 @@ window/size/viewport_height=540
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg")
+
 [gui]
 
 theme/custom="uid://dnl1s5aaud40p"

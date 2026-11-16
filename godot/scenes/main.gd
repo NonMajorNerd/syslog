@@ -1,5 +1,6 @@
 extends Node
 
+
 # set up globals, set up UI
 func _ready() -> void:
   get_tree().auto_accept_quit = false
@@ -7,18 +8,22 @@ func _ready() -> void:
   Globals.loadControllers()
   $UIManager.setup()
 
+
 func _notification(notif: int) -> void:
-  if notif == NOTIFICATION_WM_CLOSE_REQUEST: closeGame()
-    
+  if notif == NOTIFICATION_WM_CLOSE_REQUEST:
+    closeGame()
+
+
 func closeGame() -> void:
   Globals.consoleManager.printOutput("Disconnecting from syslog...")
   if not Globals.playerHandle.nickName.is_empty():
     var saved: bool = await Globals.serverManager.writeHandleAsync(Globals.playerHandle)
-    if not saved: return
-  
+    if not saved:
+      return
+
   get_tree().quit()
-    
+
 #func _unhandled_key_input(event: InputEvent) -> void:
-  #if event is InputEventKey and event.pressed \
-  #and not event.echo and event.keycode == KEY_F7:
-    #var saved: bool = await Globals.serverManager.writeHandleAsync(Globals.playerHandle )
+#if event is InputEventKey and event.pressed \
+#and not event.echo and event.keycode == KEY_F7:
+#var saved: bool = await Globals.serverManager.writeHandleAsync(Globals.playerHandle )
