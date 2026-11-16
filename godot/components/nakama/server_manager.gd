@@ -54,7 +54,7 @@ func connectToWorld(username: String) -> void:
    
   # setup player 
   Globals.gameNetworkManager.activateNetwork(player.rig.homeNet)
-  Globals.gameNetworkManager.connectTo("homenet")
+  #Globals.gameNetworkManager.connectTo("homenet")
   #player.knowledge.setup(player)
     
   # load external networks

@@ -19,7 +19,7 @@ var historyIndex: int = -1
 var historyDraft: String = ""
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
   rtlStatusRight.text = Time.get_datetime_string_from_system(true, true) + " UTC"
 
 func _ready() -> void:
@@ -230,5 +230,5 @@ func onNotesFocusExited() -> void:
   homenet.writeFile("/documents/notes.txt", txtBody.text.strip_edges().strip_escapes())
 
 
-func _on_txt_input_text_changed(new_text: String) -> void:
+func _on_txt_input_text_changed(_new_text: String) -> void:
   rtlTerminal.scroll_to_line(rtlTerminal.get_line_count())
